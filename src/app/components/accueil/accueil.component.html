@@ -1,0 +1,96 @@
+<div>
+
+    <div class="titleTab">
+        <p>Planning</p>
+    </div>
+
+    <div style="border-radius:10px;overflow:hidden;margin-bottom:2%;">
+        <div class="divPlanning" *ngFor="let journee of jours">
+            <div class="divJour">
+                <p>{{journee}}</p>
+            </div>
+
+            <div class="divSeances">
+                <div *ngFor="let training of getEntrainements(journee)">
+                    <button type="button" style="margin:0" [ngClass]="entrainement==training?'secondButton':'noClass'" (click)="setEntrainement(training,journee)">
+                        <p style="font-size:12px;">{{training.gymnase}}</p>
+                        <div style="display:flex;padding:0">
+                            <p style="white-space: nowrap;">{{training.equipe}}&nbsp;&nbsp;</p>
+                            <p>{{training.debut}}</p>
+                            <p>&nbsp;-&nbsp;</p>
+                            <p>{{training.fin}}</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="titleTab">
+
+        <select [(ngModel)]="selectedGymnase">
+            <option *ngFor="let gymnase of gymnases" [value]="gymnase">{{gymnase}}</option>
+        </select>
+
+        <div style="display:flex">
+            <select [(ngModel)]="selectedJour">
+                <option *ngFor="let jour of jours" [value]="jour">{{jour}}</option>
+            </select>
+            <select [(ngModel)]="selectedDebut" style="margin-left:2%;margin-right:2%">
+                <option *ngFor="let heure of heures" [value]="heure">{{heure}}</option>
+            </select>
+            <select [(ngModel)]="selectedFin">
+                <option *ngFor="let heure of heures" [value]="heure">{{heure}}</option>
+            </select>
+        </div>
+
+        <div style="display:flex">
+            <select [(ngModel)]="selectedEquipe" style="margin-right:1%">
+                <option *ngFor="let equipe of equipes" [value]="equipe.nom">{{equipe.nom}}</option>
+            </select>
+            <select [(ngModel)]="selectedType" style="margin-left:1%">
+                <option *ngFor="let type of types" [value]="type">{{type}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <div class="tabDiv">
+            
+            <div class="thDiv">
+                <p>PRENOM</p>
+                <p>NOM</p>
+            </div>
+
+            <div class="scrollable" style="max-height:300px;">
+                <div class="tdDiv clickable" *ngFor="let eleve of getEquipe()" [ngClass]="!eleve.absent?'noClass':'eleveAbsent'" (click)="clickEleve(eleve)">
+                    <p>{{eleve.prenom}}</p>
+                    <p>{{eleve.nom}}</p>
+                </div>
+            </div>
+
+            
+
+            <div class="tfDiv">
+                <button type="button" class="secondButton">Ajouter joueur</button>
+            </div>
+
+        </div>
+
+        <div class="divAbsents">
+            <div *ngFor="let absent of absents">
+                <p>{{absent.prenom}}</p>
+                <p>{{absent.nom}}</p>
+            </div>
+        </div>
+
+        <div class="titleTab">
+            <p>{{absents.length}} absent{{absents.length>1?'s':''}}</p>
+        </div>
+        
+        <div>
+            <button type="button">Envoyer fiche de présence</button>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,33 @@
+*                                   {font-size:20px;font-family:"Libre Baskerville";text-align:center;width:100%;}
+body                                {margin:0;}
+button                              {width:auto;margin:auto;background-color:black;color:white;font-weight:bold;border-radius:10px;margin-top:10px;margin-bottom:10px;padding:10px;border:3px solid black;}
+button:hover                        {cursor:pointer;background-color:#eaeaea;color:black;}
+p                                   {margin:auto;}
+select                              {background-color:#eaeaea;border-radius:10px;margin-bottom:1%;border:1px solid #505050;}
+
+.container                          {padding:10%;width:80%}
+
+.compoHeader                        {background-color:black;color:white;font-weight:bold;}
+.compoHeader div                    {display:flex;}
+.compoHeader p                      {padding-top:3%;padding-bottom:3%;}
+.compoHeader .clickable:hover       {color:#505050;}
+
+.divPlanning                        {display:flex;border-bottom:1px solid #eaeaea;}
+.divPlanning div                    {padding:5px 0px 5px 0px;}
+.divJour                            {background-color:black;color:white;font-weight:bold;max-width:20%;min-width:120px;}
+.divSeances                         {background-color:white;display:flex;overflow:auto;}
+.divSeances p                       {}
+
+.titleTab                           {border-bottom:3px solid black;width:50%;margin:auto;margin-bottom:2%;font-weight:bold;}
+.clickable:hover                    {cursor:pointer;font-weight:bold;}
+.secondButton                       {background-color:#eaeaea;color:black;}
+.secondButton:hover                 {background-color:black;color:white;border:3px solid #aeaeae;}
+.thDiv                              {display:flex;background-color:black;border-top-left-radius:15px;border-top-right-radius:15px;color:white;font-weight:bold;}
+.tdDiv                              {display:flex;background-color:white;color:#505050;border-bottom:1px solid#aeaeae;}
+.tfDiv                              {display:flex;background-color:black;border-bottom-left-radius:15px;border-bottom-right-radius:15px;color:white;}
+.tdDiv p	                        {margin:5px;}
+.thDiv p                            {margin:15px;}
+.scrollable                         {overflow-y:auto;}
+.eleveAbsent                        {background-color:#505050;color:rgb(255, 50, 50);}
+.divAbsents                         {display:flex;max-width:100%;overflow:auto;margin-top:2%;margin-bottom:2%;padding-bottom:2%;}
+.divAbsents div                     {background-color:#505050;color:rgb(255, 50, 50);margin:0 10px 0 10px;padding:10px;border-radius:10px;}
