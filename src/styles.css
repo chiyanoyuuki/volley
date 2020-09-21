@@ -5,7 +5,7 @@ button:hover                        {cursor:pointer;background-color:#eaeaea;col
 p                                   {margin:auto;}
 input, select                       {background-color:#eaeaea;border-radius:10px;margin-bottom:1%;border:1px solid #505050;}
 
-.container                          {padding:10%;width:80%}
+.container                          {padding:10%;width:80%;max-width:1000px;margin:auto;}
 
 .compoHeader                        {background-color:black;color:white;font-weight:bold;}
 .compoHeader div                    {display:flex;}
