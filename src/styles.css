@@ -3,7 +3,7 @@ body                                {margin:0;}
 button                              {width:auto;margin:auto;background-color:black;color:white;font-weight:bold;border-radius:10px;margin-top:10px;margin-bottom:10px;padding:10px;border:3px solid black;}
 button:hover                        {cursor:pointer;background-color:#eaeaea;color:black;}
 p                                   {margin:auto;}
-select                              {background-color:#eaeaea;border-radius:10px;margin-bottom:1%;border:1px solid #505050;}
+input, select                       {background-color:#eaeaea;border-radius:10px;margin-bottom:1%;border:1px solid #505050;}
 
 .container                          {padding:10%;width:80%}
 

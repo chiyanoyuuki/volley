@@ -16,6 +16,8 @@
                         <p style="font-size:12px;">{{training.gymnase}}</p>
                         <div style="display:flex;padding:0">
                             <p style="white-space: nowrap;">{{training.equipe}}&nbsp;&nbsp;</p>
+                        </div>
+                        <div style="display:flex;padding:0">
                             <p>{{training.debut}}</p>
                             <p>&nbsp;-&nbsp;</p>
                             <p>{{training.fin}}</p>
@@ -45,7 +47,7 @@
         </div>
 
         <div style="display:flex">
-            <select [(ngModel)]="selectedEquipe" style="margin-right:1%">
+            <select [(ngModel)]="selectedEquipe" style="margin-right:1%" (change)="changeEquipe()">
                 <option *ngFor="let equipe of equipes" [value]="equipe.nom">{{equipe.nom}}</option>
             </select>
             <select [(ngModel)]="selectedType" style="margin-left:1%">
@@ -72,24 +74,40 @@
             
 
             <div class="tfDiv">
-                <button type="button" class="secondButton">Ajouter joueur</button>
+                <div style="margin:1%">
+                    <select [(ngModel)]="selectedTeamAddPlayer" style="width:100%;">
+                        <option *ngFor="let team of getOtherTeams()" [ngValue]="team">{{team.nom}}</option>
+                    </select>
+                    <select [(ngModel)]="selectedPlayerAdd" (change)="changePlayerSelected()" style="width:100%;">
+                        <option *ngFor="let player of getplayersSelectedTeam()" [ngValue]="player">{{player.prenom}}&nbsp;{{player.nom}}</option>
+                    </select>
+                </div>
+
+                <input style="width:20%;height:100%;margin:auto;margin-right:1%;margin-left:1%" type="text" [(ngModel)]="prenomAdd" placeholder="Prénom.."/>
+                <input style="width:20%;height:100%;margin:auto;" type="text" [(ngModel)]="nomAdd" placeholder="Nom.."/>
+
+                <button style="white-space:nowrap;margin: 1% 1% 1% 2%;" type="button" class="secondButton" (click)="ajouterJoueur()">Ajouter joueur</button>
             </div>
 
         </div>
 
         <div class="divAbsents">
-            <div *ngFor="let absent of absents">
+            <div *ngFor="let absent of getAbsents()">
                 <p>{{absent.prenom}}</p>
                 <p>{{absent.nom}}</p>
             </div>
         </div>
 
         <div class="titleTab">
-            <p>{{absents.length}} absent{{absents.length>1?'s':''}}</p>
+            <p>{{getNbAbsents()}}</p>
         </div>
+
+
         
         <div>
-            <button type="button">Envoyer fiche de présence</button>
+            <button type="button" (click)="mailEnvoye!=false?sendEmail():null">Envoyer fiche de présence</button>
+            <p *ngIf="mailEnvoye==false">Envoi en cours..</p>
+            <p *ngIf="mailEnvoye==true">Mail envoyé !</p>
         </div>
 
     </div>
