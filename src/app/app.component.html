@@ -1,6 +1,18 @@
-<div>
-  <app-header style="position:fixed;left:0;"></app-header>
-  <div  class="container">
-    <app-accueil></app-accueil>
+<div style="height:100%;">
+  <div style="position:fixed;left:0;">
+    <div class="compoHeader">
+      <div class="header">
+          <div [ngClass]="page=='presence'?'secondButton':'noClass'" class="clickable" (click)="page='presence'">
+              <p>FICHE DE PRESENCE</p>
+          </div>
+          <div [ngClass]="page=='stats'?'secondButton':'noClass'" class="clickable" (click)="page='stats'">
+              <p>STATS</p>
+          </div>
+      </div>
+  </div>
+</div>
+  <div class="container" style="height:75%;">
+    <app-accueil [hidden]="page!='presence'"></app-accueil>
+    <app-stats [hidden]="page!='stats'"></app-stats>
   </div>
 </div>

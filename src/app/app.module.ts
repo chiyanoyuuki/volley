@@ -7,12 +7,14 @@ import { AccueilComponent } from './components/accueil/accueil.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { StatsComponent } from './components/stats/stats.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AccueilComponent,
-    HeaderComponent
+    HeaderComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,

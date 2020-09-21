@@ -4,13 +4,15 @@ button                              {width:auto;margin:auto;background-color:bla
 button:hover                        {cursor:pointer;background-color:#eaeaea;color:black;}
 p                                   {margin:auto;}
 input, select                       {background-color:#eaeaea;border-radius:10px;margin-bottom:1%;border:1px solid #505050;}
+html, body                          {height:100%;}
 
 .container                          {padding:10%;width:80%;max-width:1000px;margin:auto;}
 
-.compoHeader                        {background-color:black;color:white;font-weight:bold;}
+.compoHeader                        {background-color:black;color:white;font-weight:bold;border-bottom:3px solid black;}
 .compoHeader div                    {display:flex;}
 .compoHeader p                      {padding-top:3%;padding-bottom:3%;}
 .compoHeader .clickable:hover       {color:#505050;}
+.compoHeader .headerClicked         {background-color:}
 
 .divPlanning                        {display:flex;border-bottom:1px solid #eaeaea;}
 .divPlanning div                    {padding:5px 0px 5px 0px;}
@@ -28,6 +30,22 @@ input, select                       {background-color:#eaeaea;border-radius:10px
 .tdDiv p	                        {margin:5px;}
 .thDiv p                            {margin:15px;}
 .scrollable                         {overflow-y:auto;}
-.eleveAbsent                        {background-color:#505050;color:rgb(255, 50, 50);}
+.eleveAbsent                        {background-color:#808080;color:#eaeaea;}
 .divAbsents                         {display:flex;max-width:100%;overflow:auto;margin-top:2%;margin-bottom:2%;padding-bottom:2%;}
-.divAbsents div                     {background-color:#505050;color:rgb(255, 50, 50);margin:0 10px 0 10px;padding:10px;border-radius:10px;}
+.divAbsents div                     {background-color:#808080;color:#eaeaea;margin:0 10px 0 10px;padding:10px;border-radius:10px;}
+
+.divStats                           {height:100%;}
+.divStats .scores                   {display:flex;margin-top:1%;margin-bottom:1%;}
+.divStats .scores div p             {background-color:#303030;border:1px solid white;font-weight:bold;}
+.divStats .scores div               {display:flex;width:10%;}
+.divStats .scores div .set          {font-size:15px;bottom:3px;position:relative;}
+.divStats .headerStats              {background-color:black;margin-bottom:2%;padding:9px;border-radius:10px;}
+.divStats .headerStats p            {color:white;}
+.divStats .footerStats              {background-color:black;margin-top:2%;padding:9px;border-radius:10px;}
+.divStats .footerStats p            {color:white;}
+.divStats .divStatsTerrain          {height:500px;background-color:rgb(255, 130, 60);border:10px solid white;}
+.divStats .terrain                  {height:90%;}
+.divStats .joueursArriere           {height:60%;display:flex;}
+.divStats .joueursAvant             {height:40%;display:flex;}
+.divStats .filet                    {height:2%;background-color:white;border:1px solid black;}
+.divStats .autreCote                {height:8%;background-color:rgb(100, 50, 30);}

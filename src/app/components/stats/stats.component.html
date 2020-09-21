@@ -1,0 +1,86 @@
+<div class="divStats">
+
+    <div class="headerStats">
+        <input style="width:40%;height:100%;margin:auto;margin-right:1%;margin-left:1%" type="text"  placeholder="Nom du Match.."/>
+        <p style="margin-top:2px;margin-bottom:2px;">{{date}}</p>
+        <select [(ngModel)]="selectedEquipe" style="width:40%;" (change)="changeEquipe()">
+            <option *ngFor="let equipe of equipes" [value]="equipe.nom">{{equipe.nom}}</option>
+        </select>
+
+        <div class="scores">
+            <div style="margin-left:auto;">
+                <p class="points" style="color:rgb(200, 255, 187)">12</p>
+                <p class="set" style="color:rgb(200, 255, 187)">1</p>
+            </div>
+            <div style="width:5px;"></div>
+            <div style="margin-right:auto;">
+                <p class="set" style="color:rgb(255, 187, 187)">1</p>
+                <p class="points" style="color:rgb(255, 187, 187)">18</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="divStatsTerrain">
+        <div *ngIf="cote==true" class="terrain">
+
+            <div class="joueursArriere">
+                
+            </div>
+
+            <div class="joueursAvant" style="border-top:10px solid white;">
+
+            </div>
+
+        </div>
+        
+        <div *ngIf="cote==false" class="autreCote"></div>
+        <div class="filet"></div>
+        <div *ngIf="cote==true" class="autreCote"></div>
+        
+        <!--
+        <div *ngIf="cote==false" class="terrain">
+
+            <div class="joueursAvant">
+
+            </div>
+
+            <div class="joueursArriere" style="border-top:10px solid white;">
+
+            </div>
+            
+        </div>-->
+    </div>
+
+    <div class="tabDiv" style="margin-top:2%;padding:10px;">
+            
+        <div class="thDiv">
+            <p>PRENOM</p>
+            <p>NOM</p>
+        </div>
+
+        <div class="scrollable" style="max-height:300px;">
+            <div class="tdDiv clickable" *ngFor="let eleve of getEquipe()">
+                <p>{{eleve.prenom}}</p>
+                <p>{{eleve.nom}}</p>
+            </div>
+        </div>
+
+        <div class="tfDiv">
+            <div style="margin:1%">
+                <select [(ngModel)]="selectedTeamAddPlayer" style="width:100%;">
+                    <option *ngFor="let team of getOtherTeams()" [ngValue]="team">{{team.nom}}</option>
+                </select>
+                <select [(ngModel)]="selectedPlayerAdd" (change)="changePlayerSelected()" style="width:100%;">
+                    <option *ngFor="let player of getplayersSelectedTeam()" [ngValue]="player">{{player.prenom}}&nbsp;{{player.nom}}</option>
+                </select>
+            </div>
+
+            <input style="width:20%;height:100%;margin:auto;margin-right:1%;margin-left:1%" type="text" [(ngModel)]="prenomAdd" placeholder="Prénom.."/>
+            <input style="width:20%;height:100%;margin:auto;" type="text" [(ngModel)]="nomAdd" placeholder="Nom.."/>
+
+            <button style="white-space:nowrap;margin: 1% 1% 1% 2%;" type="button" class="secondButton" (click)="ajouterJoueur()">Ajouter joueur</button>
+        </div>
+
+    </div>
+
+</div>

@@ -67,7 +67,13 @@ export class AccueilComponent implements OnInit
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
+    this.equipes.forEach(e=>{
+      var joueurs = e.joueurs;
+      joueurs.forEach(j=>j.absent=true)
+    })
+
     this.interdep.sort((a,b)=>{if(a.prenom<b.prenom)return -1;else if(a.prenom>b.prenom)return 1;else return 0;});
     this.prenationnal.sort((a,b)=>{if(a.prenom<b.prenom)return -1;else if(a.prenom>b.prenom)return 1;else return 0;});
 
@@ -99,8 +105,6 @@ export class AccueilComponent implements OnInit
     creneaux.forEach(e=>{
       var debut = e.debut.substr(0,2);
       var fin = e.fin.substr(0,2);
-
-      console.log(this.heure +" : "+debut+ " - " +fin);
 
       if(this.entrainement==null)
       {
@@ -206,7 +210,8 @@ export class AccueilComponent implements OnInit
   getNbAbsents()
   {
     var taille = this.getAbsents().length;
-    return taille + ' absent' + (taille>1?'s':'');
+    var taille2 = this.getEquipe().length;
+    return (taille2-taille) + '/' + taille2 + ' présent' + (taille>1?'s':'');
   }
 
   getOtherTeams()
