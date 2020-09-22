@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import equipes from '../../../assets/equipes.json';
 
 @Component({
   selector: 'app-accueil',
@@ -9,56 +10,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AccueilComponent implements OnInit 
 {
-  gymnases = ['G.VALLEREY','G.PELLERIN','P.HEDE'];
-  heures = [];
-  types = ['Masculine','Feminine'];
-
-  selectedGymnase;
-  selectedJour;
-  selectedDebut;
-  selectedFin;
-  selectedEquipe;
-  selectedType;
-  selectedTeamAddPlayer;
-  selectedPlayerAdd;
-  prenomAdd;
-  nomAdd;
-
   jours = ['LUNDI','MARDI','MERCREDI','JEUDI','VENDREDI','SAMEDI','DIMANCHE'];
   days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  gymnases = ['G.VALLEREY','G.PELLERIN','P.HEDE'];
+  heures = [];
 
-  interdep : {prenom:string,nom:string,absent?:boolean,added?:boolean}[] = [{prenom:'Brice', nom:'HOARAU'},{prenom:'Mathieu', nom:'COYETTE'},{prenom:'Axel', nom:'DEFRANCE'},{prenom:'Theo', nom:'KABA'},{prenom:'Kemil', nom:'MEDANI'},
-    {prenom:'Clément', nom:'MONCHIET'},{prenom:'Remy', nom:'PAILLE'},{prenom:'Étienne', nom:'RASSE'},{prenom:'Clément', nom:'ROBIN'},{prenom:'Charles', nom:'POURE'},
-    {prenom:'Paul', nom:'LEMAIRE'},{prenom:'Nicolas', nom:'GERMACK'},{prenom:'Ata', nom:'TOZ'}];
+  select = {division:undefined,sexe:undefined,gymnase:undefined,jour:undefined,debut:undefined,
+    fin:undefined,team:undefined,player:undefined,prenom:undefined,nom:undefined,sex:undefined};
 
-  prenationnal : {prenom:string,nom:string,absent?:boolean,added?:boolean}[] = [{prenom:'Emmanuel', nom:'ALFRED'},{prenom:'Maxime', nom:'CADART'},{prenom:'Guillaume', nom:'BAUJOIN'},{prenom:'Sanka', nom:'CLAIR'},{prenom:'Mathéo', nom:'DEROY'},
-    {prenom:'Alexis', nom:'DUBOIS'},{prenom:'Marc', nom:'DURR'},{prenom:'Remy', nom:'GAILLIEN'},{prenom:'Ludovic', nom:'GUILLET'},{prenom:'Lucas', nom:'LEBOUC'},
-    {prenom:'Ugo', nom:'MINOT'},{prenom:'Soheil', nom:'MOKKADEM'},{prenom:'Théo', nom:'MOUGDON'},{prenom:'Guillaume', nom:'SERVAIS'},{prenom:'Pierre-loup', nom:'VAN KEIRSBLICK'}];
 
-  entrainements = [
-    {jour:'LUNDI'   ,creneaux:[
-      {type:'Masculine',equipe:'Inter-Dép',debut:'18h00',fin:'20h00',gymnase:'P.HEDE'},
-      {type:'Masculine',equipe:'Pré-Nat',debut:'20h00',fin:'22h30',gymnase:'P.HEDE'}]},
-
-    {jour:'MARDI'   ,creneaux:[]},
-
-    {jour:'MERCREDI',creneaux:[
-      {type:'Masculine',equipe:'Inter-Dép',debut:'16h00',fin:'18h00',gymnase:'G.VALLEREY'}]},
-
-    {jour:'JEUDI',creneaux:[
-      {type:'Masculine',equipe:'Inter-Dép',debut:'18h00',fin:'20h00',gymnase:'G.VALLEREY'},
-      {type:'Masculine',equipe:'Pré-Nat',debut:'20h00',fin:'22h30',gymnase:'G.PELLERIN'}]},
-
-    {jour:'VENDREDI',creneaux:[]},
-
-    {jour:'SAMEDI',creneaux:[
-      {type:'Masculine',equipe:'Inter-Dép',debut:'13h00',fin:'17h00',gymnase:'G.PELLERIN'},
-      {type:'Masculine',equipe:'Pré-Nat',debut:'18h00',fin:'22h30',gymnase:'G.PELLERIN'}]},
-
-    {jour:'DIMANCHE',creneaux:[]}];
-
-  equipes = [{nom:'Inter-Dép',joueurs:this.interdep}, {nom:'Pré-Nat',joueurs:this.prenationnal}];
-
+  equipes = []; 
   entrainement;
   jourEntrainement;
   jour;
@@ -69,82 +30,138 @@ export class AccueilComponent implements OnInit
 
   ngOnInit(): void 
   {
-    this.equipes.forEach(e=>{
-      var joueurs = e.joueurs;
-      joueurs.forEach(j=>j.absent=true)
-    })
+    this.equipes = equipes;
+    this.equipes.forEach(division=>{
+      division.equipes.forEach(sexe=>{
+        let joueurs = sexe.joueurs;
+        joueurs.forEach(joueur=>joueur.absent=true);
+        joueurs.sort((a,b)=>{if(a.prenom<b.prenom)return -1;else if(a.prenom>b.prenom)return 1;else return 0;});
+      })
+    });
 
-    this.interdep.sort((a,b)=>{if(a.prenom<b.prenom)return -1;else if(a.prenom>b.prenom)return 1;else return 0;});
-    this.prenationnal.sort((a,b)=>{if(a.prenom<b.prenom)return -1;else if(a.prenom>b.prenom)return 1;else return 0;});
-
-    var date = (formatDate(new Date(),'EEEE - HH','en'));
-    var jour = (date.substr(0,date.indexOf("-"))).replace(" ","");
-
+    let date = (formatDate(new Date(),'EEEE - HH','en'));
+    let jour = (date.substr(0,date.indexOf("-"))).replace(" ","");
     this.heure = (date.substr(date.indexOf("-")+1)).replace(" ","");
     this.jour = this.jours[this.days.indexOf(jour)];
-
-    for(var i=8;i<24;i++)
-    {
-      this.heures.push((i<10?'0':'')+i+'h00');
-      this.heures.push(i+'h30');
-    }
+    for(let i=8;i<24;i++){this.heures.push((i<10?'0':'')+i+'h00');this.heures.push(i+'h30');}
 
     this.getEntrainement();
-
-    var tmp = this.getOtherTeams();
-
-    if(this.selectedTeamAddPlayer==undefined&&tmp.length>0)this.selectedTeamAddPlayer = tmp[0];
+    let tmp = this.getOtherTeams();
+    if(this.select.team==undefined&&tmp.length>0)
+    {
+      this.select.team = tmp[0];
+      this.select.sex = this.select.team.equipes[0];
+    }
   }
+
+  
+  //GETTERS====================================================
 
   getEntrainement()
   {
     this.entrainement = null;
 
-    var tmp = this.entrainements.find(e=>e.jour==this.jour)
-    var creneaux = tmp.creneaux;
-    creneaux.forEach(e=>{
-      var debut = e.debut.substr(0,2);
-      var fin = e.fin.substr(0,2);
-
-      if(this.entrainement==null)
-      {
-        if(this.heure>=debut&&this.heure<=fin)
-          this.setEntrainement(e,tmp.jour);
-        else if(this.heure<debut)
-          this.setEntrainement(e,tmp.jour);
-      }
+    this.equipes.forEach(division=>
+    {
+      division.equipes.forEach(sexe=>{
+        if(this.entrainement==null)
+        {
+          let training = sexe.entrainements;
+          let jourEntrainement = training.find(e=>e.jour==this.jour)
+          let creneaux = jourEntrainement.creneaux;
+          creneaux.forEach(e=>{
+            let debut = e.debut.substr(0,2);
+            let fin = e.fin.substr(0,2);
+      
+            if(this.entrainement==null)
+            {
+              if(this.heure>=debut&&this.heure<=fin)
+                this.setEntrainement(division,sexe,e,jourEntrainement.jour);
+              else if(this.heure<debut)
+                this.setEntrainement(division,sexe,e,jourEntrainement.jour);
+            }
+          });
+        };
+      });
     });
 
-    while(this.entrainement==null)
+    this.equipes.forEach(division=>
     {
-      tmp = this.entrainements[((this.entrainements.indexOf(tmp))+1)%7];
-      creneaux = tmp.creneaux;
-      if(creneaux.length>0)
-        this.setEntrainement(creneaux[0],tmp.jour);
-    }
+      division.equipes.forEach(sexe=>{
+        if(this.entrainement==null)
+        {
+          while(this.entrainement==null)
+          {
+            let training = sexe.entrainements;
+            let jourEntrainement = training.find(e=>e.jour==this.jour)
+            jourEntrainement = training[((training.indexOf(jourEntrainement))+1)%7];
+            let creneaux = jourEntrainement.creneaux;
+            if(creneaux.length>0)
+              this.setEntrainement(division,sexe,creneaux[0],jourEntrainement.jour);
+          }
+        }
+      })
+    });
   }
-
-  setEntrainement(e,jour)
+  getEntrainements(journee)
   {
-    this.entrainement = e;
-    this.jourEntrainement = jour;
-
-    this.selectedGymnase = e.gymnase;
-    this.selectedJour = jour;
-    this.selectedDebut = e.debut;
-    this.selectedFin = e.fin;
-    this.selectedEquipe = e.equipe;
-    this.selectedType = e.type;
+    let retour = this.select.sexe.entrainements.find(e=>e.jour==journee).creneaux;
+    retour.sort((a,b)=>{if(a.debut<b.debut)return -1;else if(a.debut>b.debut)return 1;else return 0;});
+    return retour;
+  }
+  getplayersSelectedTeam()
+  {
+    if(this.select.sex==undefined)return [];
+    let otherJoueurs = this.select.team.equipes.find(e=>e.nom==this.select.sex.nom);
+    if(otherJoueurs==undefined)return [];
+    otherJoueurs = otherJoueurs.joueurs;
+    let joueurs = this.select.sexe.joueurs;
+    return otherJoueurs.filter(e=>!joueurs.find(j=>j.nom==e.nom&&j.prenom==e.prenom));
+  }
+  getSexs(){return this.select.team.equipes;}
+  getSexes(){return this.select.division.equipes;}
+  getOtherTeams(){return this.equipes.filter(e=>e.nom!=this.select.division.nom&&e.nom!='Loisirs');}
+  getAbsents(){return this.select.sexe.joueurs.filter(e=>e.absent==true);}
+  getNbAbsents(){
+    let taille = this.getAbsents().length;
+    let taille2 = this.select.sexe.joueurs.length;
+    return (taille2-taille) + '/' + taille2 + ' présent' + (taille>1?'s':'');
   }
 
+  //SETTERS====================================================
+
+  setEntrainement(division,sexe,creneaux,jour)
+  {
+    this.entrainement = creneaux;
+    this.jourEntrainement = jour;
+    this.select.gymnase = creneaux.gymnase;
+    this.select.jour = jour;
+    this.select.debut = creneaux.debut;
+    this.select.fin = creneaux.fin;
+
+    this.select.division = division;
+    this.select.sexe = sexe;
+  }
+  setEntrainement2(creneaux,jour)
+  {
+    this.entrainement = creneaux;
+    this.jourEntrainement = jour;
+    this.select.gymnase = creneaux.gymnase;
+    this.select.jour = jour;
+    this.select.debut = creneaux.debut;
+    this.select.fin = creneaux.fin;
+  }
+
+  //OTHERS====================================================
+  
   clickEleve(eleve)
   {
     if(eleve.added==true)
     {
-      var equipe = this.getEquipe();
+      let equipe = this.select.sexe.joueurs;
       equipe.splice(equipe.indexOf(eleve),1);
-      this.prenomAdd = eleve.prenom;
-      this.nomAdd = eleve.nom;
+      this.select.prenom = eleve.prenom;
+      this.select.nom = eleve.nom;
     }
     else
     {
@@ -152,40 +169,23 @@ export class AccueilComponent implements OnInit
     }
   }
 
-  getEntrainements(journee)
-  {
-    var retour = [];
-    this.entrainements.forEach(function(e){if(e.jour==journee)retour = e.creneaux;})
-    retour.sort((a,b)=>{if(a.debut<b.debut)return -1;else if(a.debut>b.debut)return 1;else return 0;});
-    return retour;
-  }
-
-  getEquipe()
-  {
-    var retour = this.equipes.find(e=>e.nom==this.selectedEquipe);
-    if(retour!=null)
-      return retour.joueurs;
-    else
-      return [];
-  }
-
   sendEmail()
   {
-    var gymnase = this.selectedGymnase;
-    var jour = this.selectedJour;
-    var debut = this.selectedDebut;
-    var fin = this.selectedFin;
-    var equipe = this.selectedEquipe;
-    var type = this.selectedType;
-    var joueurs = this.getEquipe();
+    let gymnase = this.select.gymnase;
+    let jour = this.select.jour;
+    let debut = this.select.debut;
+    let fin = this.select.fin;
+    let equipe = this.select.division.nom;
+    let type = this.select.sexe.nom;
+    let joueurs = this.select.sexe.joueurs;
 
-    var joueurs2 = [];
-    var absents = [];
-    var date = jour + ' : ' + debut + ' - ' + fin;
-    var equipe2 = equipe + ' ' + type;
+    let joueurs2 = [];
+    let absents = [];
+    let date = jour + ' : ' + debut + ' - ' + fin;
+    let equipe2 = equipe + ' ' + type;
 
     joueurs.forEach(e=>{
-      var ligne = e.prenom+' '+e.nom;
+      let ligne = e.prenom+' '+e.nom;
       e.absent?absents.push(ligne):joueurs2.push(ligne);
     });
 
@@ -200,60 +200,29 @@ export class AccueilComponent implements OnInit
         );
   }
 
-  getAbsents()
-  {
-    var equipe = this.getEquipe();
-    var absents = equipe.filter(e=>e.absent==true);
-    return absents;
-  }
-
-  getNbAbsents()
-  {
-    var taille = this.getAbsents().length;
-    var taille2 = this.getEquipe().length;
-    return (taille2-taille) + '/' + taille2 + ' présent' + (taille>1?'s':'');
-  }
-
-  getOtherTeams()
-  {
-    var teams = this.equipes.filter(e=>e.nom!=this.selectedEquipe);
-    return teams;
-  }
-
-  getplayersSelectedTeam()
-  {
-    var equipe = this.selectedTeamAddPlayer;
-    if(equipe!=undefined)
-    {
-      var otherJoueurs = equipe.joueurs;
-      var joueurs = this.getEquipe();
-      return otherJoueurs.filter(e=>!joueurs.find(j=>j.nom==e.nom&&j.prenom==e.prenom));
-    }
-    return [];
-  }
-
   changePlayerSelected()
   {
-    this.prenomAdd = this.selectedPlayerAdd.prenom;
-    this.nomAdd = this.selectedPlayerAdd.nom;
+    this.select.prenom = this.select.player.prenom;
+    this.select.nom = this.select.player.nom;
   }
 
   changeEquipe()
   {
-    var teams = this.equipes.filter(e=>e.nom!=this.selectedEquipe);
-    this.selectedTeamAddPlayer = teams[0];
-    this.prenomAdd = "";
-    this.nomAdd = "";
+    let teams = this.equipes.filter(e=>e.nom!=this.select.division.nom);
+    this.select.team = teams[0];
+    this.select.prenom = "";
+    this.select.nom = "";
   }
 
   ajouterJoueur()
   {
-    if(this.prenomAdd!=""&&this.nomAdd!="")
+    if(this.select.prenom!=""&&this.select.nom!=""&&
+    !this.select.sexe.joueurs.find(e=>e.prenom==this.select.prenom&&e.nom==this.select.nom))
     {
-      var equipe = this.getEquipe();
-      equipe.push({prenom:this.prenomAdd,nom:this.nomAdd,added:true});
-      this.prenomAdd = "";
-      this.nomAdd = "";
+      let equipe = this.select.sexe.joueurs;
+      equipe.push({prenom:this.select.prenom,nom:this.select.nom,added:true});
+      this.select.prenom = "";
+      this.select.nom = "";
       equipe.sort((a,b)=>{if(a.prenom<b.prenom)return -1;else if(a.prenom>b.prenom)return 1;else return 0;});
     }
   }

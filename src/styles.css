@@ -1,51 +1,61 @@
-*                                   {font-size:20px;font-family:"Libre Baskerville";text-align:center;width:100%;}
-body                                {margin:0;}
-button                              {width:auto;margin:auto;background-color:black;color:white;font-weight:bold;border-radius:10px;margin-top:10px;margin-bottom:10px;padding:10px;border:3px solid black;}
-button:hover                        {cursor:pointer;background-color:#eaeaea;color:black;}
-p                                   {margin:auto;}
-input, select                       {background-color:#eaeaea;border-radius:10px;margin-bottom:1%;border:1px solid #505050;}
-html, body                          {height:100%;}
+*                                       {font-size:20px;font-family:"Libre Baskerville";text-align:center;width:100%;}
+body                                    {margin:0;}
+button                                  {width:auto;margin:auto;background-color:black;color:white;font-weight:bold;border-radius:10px;margin-top:10px;margin-bottom:10px;padding:10px;border:3px solid black;}
+button:hover                            {cursor:pointer;background-color:#eaeaea;color:black;}
+p                                       {margin:auto;}
+input, select                           {background-color:#eaeaea;border-radius:10px;margin-bottom:1%;border:1px solid #505050;}
+html, body                              {height:100%;}
 
-.container                          {padding:10%;width:80%;max-width:1000px;margin:auto;}
+.container                              {padding:10%;width:80%;max-width:1000px;margin:auto;}
 
-.compoHeader                        {background-color:black;color:white;font-weight:bold;border-bottom:3px solid black;}
-.compoHeader div                    {display:flex;}
-.compoHeader p                      {padding-top:3%;padding-bottom:3%;}
-.compoHeader .clickable:hover       {color:#505050;}
-.compoHeader .headerClicked         {background-color:}
+.compoHeader                            {background-color:black;color:white;font-weight:bold;border-bottom:3px solid black;}
+.compoHeader div                        {display:flex;}
+.compoHeader p                          {padding-top:3%;padding-bottom:3%;}
+.compoHeader .clickable:hover           {color:#505050;}
+.compoHeader .headerClicked             {background-color:}
 
-.divPlanning                        {display:flex;border-bottom:1px solid #eaeaea;}
-.divPlanning div                    {padding:5px 0px 5px 0px;}
-.divJour                            {background-color:black;color:white;font-weight:bold;max-width:20%;min-width:120px;}
-.divSeances                         {background-color:white;display:flex;overflow:auto;}
-.divSeances p                       {}
+.divPlanning                            {display:flex;border-bottom:1px solid #eaeaea;}
+.divPlanning div                        {padding:5px 0px 5px 0px;}
+.divJour                                {background-color:black;color:white;font-weight:bold;max-width:20%;min-width:120px;}
+.divSeances                             {background-color:white;display:flex;overflow:auto;}
 
-.titleTab                           {border-bottom:3px solid black;width:50%;margin:auto;margin-bottom:2%;font-weight:bold;}
-.clickable:hover                    {cursor:pointer;font-weight:bold;}
-.secondButton                       {background-color:#eaeaea;color:black;}
-.secondButton:hover                 {background-color:black;color:white;border:3px solid #aeaeae;}
-.thDiv                              {display:flex;background-color:black;border-top-left-radius:15px;border-top-right-radius:15px;color:white;font-weight:bold;}
-.tdDiv                              {display:flex;background-color:white;color:#505050;border-bottom:1px solid#aeaeae;}
-.tfDiv                              {display:flex;background-color:black;border-bottom-left-radius:15px;border-bottom-right-radius:15px;color:white;}
-.tdDiv p	                        {margin:5px;}
-.thDiv p                            {margin:15px;}
-.scrollable                         {overflow-y:auto;}
-.eleveAbsent                        {background-color:#808080;color:#eaeaea;}
-.divAbsents                         {display:flex;max-width:100%;overflow:auto;margin-top:2%;margin-bottom:2%;padding-bottom:2%;}
-.divAbsents div                     {background-color:#808080;color:#eaeaea;margin:0 10px 0 10px;padding:10px;border-radius:10px;}
+.titleTab                               {border-bottom:3px solid black;width:50%;margin:auto;margin-bottom:2%;font-weight:bold;}
+.clickable:hover                        {cursor:pointer;font-weight:bold;}
+.secondButton                           {background-color:#eaeaea;color:black;}
+.secondButton:hover                     {background-color:black;color:white;border:3px solid #aeaeae;}
+.thDiv                                  {display:flex;background-color:black;border-top-left-radius:15px;border-top-right-radius:15px;color:white;font-weight:bold;}
+.tdDiv                                  {display:flex;background-color:white;color:#505050;border-bottom:1px solid#aeaeae;}
+.tfDiv                                  {display:flex;background-color:black;border-bottom-left-radius:15px;border-bottom-right-radius:15px;color:white;}
+.tdDiv p	                            {margin:5px;}
+.thDiv p                                {margin:15px;}
+.scrollable                             {overflow-y:auto;}
+.eleveAbsent                            {background-color:#808080;color:#eaeaea;}
+.divAbsents                             {display:flex;max-width:100%;overflow:auto;margin-top:2%;margin-bottom:2%;padding-bottom:2%;}
+.divAbsents div                         {background-color:#808080;color:#eaeaea;margin:0 10px 0 10px;padding:10px;border-radius:10px;}
 
-.divStats                           {height:100%;}
-.divStats .scores                   {display:flex;margin-top:1%;margin-bottom:1%;}
-.divStats .scores div p             {background-color:#303030;border:1px solid white;font-weight:bold;}
-.divStats .scores div               {display:flex;width:10%;}
-.divStats .scores div .set          {font-size:15px;bottom:3px;position:relative;}
-.divStats .headerStats              {background-color:black;margin-bottom:2%;padding:9px;border-radius:10px;}
-.divStats .headerStats p            {color:white;}
-.divStats .footerStats              {background-color:black;margin-top:2%;padding:9px;border-radius:10px;}
-.divStats .footerStats p            {color:white;}
-.divStats .divStatsTerrain          {height:500px;background-color:rgb(255, 130, 60);border:10px solid white;}
-.divStats .terrain                  {height:90%;}
-.divStats .joueursArriere           {height:60%;display:flex;}
-.divStats .joueursAvant             {height:40%;display:flex;}
-.divStats .filet                    {height:2%;background-color:white;border:1px solid black;}
-.divStats .autreCote                {height:8%;background-color:rgb(100, 50, 30);}
+.divStats                               {height:100%;}
+.divStats .scores                       {display:flex;margin-top:1%;margin-bottom:1%;}
+.divStats .scores div p                 {background-color:#303030;border:1px solid white;font-weight:bold;}
+.divStats .scores div                   {display:flex;width:10%;}
+.divStats .scores div .set              {font-size:15px;bottom:3px;position:relative;}
+.divStats .headerStats                  {background-color:black;margin-bottom:2%;padding:9px;border-radius:10px;}
+.divStats .headerStats p                {color:white;}
+.divStats .footerStats                  {background-color:black;margin-top:2%;padding:9px;border-radius:10px;}
+.divStats .footerStats p                {color:white;}
+.divStats .divStatsTerrain              {height:500px;background-color:rgb(255, 130, 60);border:10px solid white;}
+.divStats .terrain                      {height:90%;position: relative;}
+.divStats .filet                        {height:2%;background-color:white;border:1px solid black;}
+.divStats .autreCote                    {height:8%;background-color:rgb(100, 50, 30);}
+.divStats .in                           {background-color:rgb(255, 170, 130);}
+
+.divStats .joueurAvant                  {font-weight: bold;}
+.divStats .joueurArriere                {font-weight: bold;}
+.divStats .joueur                       {position:absolute;cursor:pointer;}
+.divStats .joueur:hover                 {background-color:rgb(200, 100, 50);}
+
+.divStats .choix                        {height:100%;}
+.divStats .choix div                    {background-color:cornsilk;border-radius:100%;width:100px;height:50px;position: absolute;border:3px solid black;margin:0;font-weight: bold;}
+.divStats .choix p                      {height:100%;top:25%;position: relative;}
+.divStats .infos                        {position:relative;top:35%;background-color:white;border-radius:100%;width:60%;margin:auto;border:3px solid black;}
+.divStats .choix div:hover              {cursor:pointer;background-color:lightgray;}
+.divStats .result div                   {border-radius:100%;width:100px;height:80px;position: absolute;border:3px solid black;margin:0;font-weight: bold;}

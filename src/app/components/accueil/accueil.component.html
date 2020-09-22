@@ -4,6 +4,17 @@
         <p>Planning</p>
     </div>
 
+    <div>
+        <div style="display:flex">
+            <select [(ngModel)]="select.division" style="margin-right:1%" (change)="select.sexe=select.division.equipes[0];select.team=getOtherTeams()[0];select.sex=select.team.equipes[0]">
+                <option *ngFor="let division of equipes" [ngValue]="division">{{division.nom}}</option>
+            </select>
+            <select [(ngModel)]="select.sexe" style="margin-left:1%">
+                <option *ngFor="let sexe of getSexes()" [ngValue]="sexe">{{sexe.nom}}</option>
+            </select>
+        </div>
+    </div>
+
     <div style="border-radius:10px;overflow:hidden;margin-bottom:2%;">
         <div class="divPlanning" *ngFor="let journee of jours">
             <div class="divJour">
@@ -12,11 +23,8 @@
 
             <div class="divSeances">
                 <div *ngFor="let training of getEntrainements(journee)">
-                    <button type="button" style="margin:0" [ngClass]="entrainement==training?'secondButton':'noClass'" (click)="setEntrainement(training,journee)">
+                    <button type="button" style="margin:0" [ngClass]="entrainement==training?'secondButton':'noClass'" (click)="setEntrainement2(training,journee)">
                         <p style="font-size:12px;">{{training.gymnase}}</p>
-                        <div style="display:flex;padding:0">
-                            <p style="white-space: nowrap;">{{training.equipe}}&nbsp;&nbsp;</p>
-                        </div>
                         <div style="display:flex;padding:0">
                             <p>{{training.debut}}</p>
                             <p>&nbsp;-&nbsp;</p>
@@ -30,28 +38,19 @@
 
     <div class="titleTab">
 
-        <select [(ngModel)]="selectedGymnase">
+        <select [(ngModel)]="select.gymnase">
             <option *ngFor="let gymnase of gymnases" [value]="gymnase">{{gymnase}}</option>
         </select>
 
         <div style="display:flex">
-            <select [(ngModel)]="selectedJour">
+            <select [(ngModel)]="select.jour">
                 <option *ngFor="let jour of jours" [value]="jour">{{jour}}</option>
             </select>
-            <select [(ngModel)]="selectedDebut" style="margin-left:2%;margin-right:2%">
+            <select [(ngModel)]="select.debut" style="margin-left:2%;margin-right:2%">
                 <option *ngFor="let heure of heures" [value]="heure">{{heure}}</option>
             </select>
-            <select [(ngModel)]="selectedFin">
+            <select [(ngModel)]="select.fin">
                 <option *ngFor="let heure of heures" [value]="heure">{{heure}}</option>
-            </select>
-        </div>
-
-        <div style="display:flex">
-            <select [(ngModel)]="selectedEquipe" style="margin-right:1%" (change)="changeEquipe()">
-                <option *ngFor="let equipe of equipes" [value]="equipe.nom">{{equipe.nom}}</option>
-            </select>
-            <select [(ngModel)]="selectedType" style="margin-left:1%">
-                <option *ngFor="let type of types" [value]="type">{{type}}</option>
             </select>
         </div>
     </div>
@@ -65,26 +64,28 @@
             </div>
 
             <div class="scrollable" style="max-height:300px;">
-                <div class="tdDiv clickable" *ngFor="let eleve of getEquipe()" [ngClass]="!eleve.absent?'noClass':'eleveAbsent'" (click)="clickEleve(eleve)">
+                <div class="tdDiv clickable" *ngFor="let eleve of select.sexe.joueurs" [ngClass]="!eleve.absent?'noClass':'eleveAbsent'" (click)="clickEleve(eleve)">
                     <p>{{eleve.prenom}}</p>
                     <p>{{eleve.nom}}</p>
                 </div>
-            </div>
-
-            
+            </div>            
 
             <div class="tfDiv">
                 <div style="margin:1%">
-                    <select [(ngModel)]="selectedTeamAddPlayer" style="width:100%;">
+
+                    <select [(ngModel)]="select.team" style="width:100%;" (change)="select.sex=select.team.equipes[0];select.player=undefined">
                         <option *ngFor="let team of getOtherTeams()" [ngValue]="team">{{team.nom}}</option>
                     </select>
-                    <select [(ngModel)]="selectedPlayerAdd" (change)="changePlayerSelected()" style="width:100%;">
+                    <select [(ngModel)]="select.sex" style="width:100%;" (change)="select.player=undefined">
+                        <option *ngFor="let sex of getSexs()" [ngValue]="sex">{{sex.nom}}</option>
+                    </select>
+                    <select [(ngModel)]="select.player" (change)="changePlayerSelected()" style="width:100%;">
                         <option *ngFor="let player of getplayersSelectedTeam()" [ngValue]="player">{{player.prenom}}&nbsp;{{player.nom}}</option>
                     </select>
                 </div>
 
-                <input style="width:20%;height:100%;margin:auto;margin-right:1%;margin-left:1%" type="text" [(ngModel)]="prenomAdd" placeholder="Prénom.."/>
-                <input style="width:20%;height:100%;margin:auto;" type="text" [(ngModel)]="nomAdd" placeholder="Nom.."/>
+                <input style="width:20%;height:100%;margin:auto;margin-right:1%;margin-left:1%" type="text" [(ngModel)]="select.prenom" placeholder="Prénom.."/>
+                <input style="width:20%;height:100%;margin:auto;" type="text" [(ngModel)]="select.nom" placeholder="Nom.."/>
 
                 <button style="white-space:nowrap;margin: 1% 1% 1% 2%;" type="button" class="secondButton" (click)="ajouterJoueur()">Ajouter joueur</button>
             </div>

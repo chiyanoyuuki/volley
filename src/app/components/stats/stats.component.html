@@ -3,19 +3,24 @@
     <div class="headerStats">
         <input style="width:40%;height:100%;margin:auto;margin-right:1%;margin-left:1%" type="text"  placeholder="Nom du Match.."/>
         <p style="margin-top:2px;margin-bottom:2px;">{{date}}</p>
-        <select [(ngModel)]="selectedEquipe" style="width:40%;" (change)="changeEquipe()">
-            <option *ngFor="let equipe of equipes" [value]="equipe.nom">{{equipe.nom}}</option>
-        </select>
+        <div style="display:flex;width:60%;margin:auto;">
+            <select [(ngModel)]="select.division" style="margin-right:1%" (change)="select.sexe=select.division.equipes[0];select.team=getOtherTeams()[0];select.sex=select.team.equipes[0]">
+                <option *ngFor="let division of equipes" [ngValue]="division">{{division.nom}}</option>
+            </select>
+            <select [(ngModel)]="select.sexe" style="margin-left:1%">
+                <option *ngFor="let sexe of getSexes()" [ngValue]="sexe">{{sexe.nom}}</option>
+            </select>
+        </div>
 
         <div class="scores">
             <div style="margin-left:auto;">
-                <p class="points" style="color:rgb(200, 255, 187)">12</p>
-                <p class="set" style="color:rgb(200, 255, 187)">1</p>
+                <p class="points" style="color:rgb(200, 255, 187)">{{scores.points1}}</p>
+                <p class="set" style="color:rgb(200, 255, 187)">{{scores.sets1}}</p>
             </div>
             <div style="width:5px;"></div>
             <div style="margin-right:auto;">
-                <p class="set" style="color:rgb(255, 187, 187)">1</p>
-                <p class="points" style="color:rgb(255, 187, 187)">18</p>
+                <p class="set" style="color:rgb(255, 187, 187)">{{scores.sets2}}</p>
+                <p class="points" style="color:rgb(255, 187, 187)">{{scores.points2}}</p>
             </div>
         </div>
     </div>
@@ -23,14 +28,38 @@
     <div class="divStatsTerrain">
         <div *ngIf="cote==true" class="terrain">
 
-            <div class="joueursArriere">
-                
+            <div style="height:5px;width:100%;background-color:white;position:relative;top:60%"></div>
+
+            <div class="joueur" (click)="joueurClicked!=joueur?action=undefined:null;joueurClicked=joueur" [ngClass]="i==0||i==4||i==5?'joueurArriere':'joueurAvant'" *ngFor="let joueur of joueurs;let i = index"
+            [ngStyle]="{'left':(i==5||i==2)?'33%':(i==4||i==3)?'67%':'0%','height':(i==1||i==2||i==3)?'40%':'60%','top':(i==1||i==2||i==3)?'60%':'0%','width':(i==5||i==2)?'34%':'33%'}">
+
+                <div *ngIf="joueurClicked==joueur&&action==undefined" style="width:100%;height:100%;position:absolute;">
+                    <div class="choix actions" style="position: absolute;z-index:2;">
+                        <div (click)="action='spike'" style="top:10%;left:0%;"><p>Spike</p></div>
+                        <div (click)="action='block'" style="top:10%;right:0%;"><p>Block</p></div>
+                        <div (click)="action='servi'" style="top:40%;left:0%;"><p>Service</p></div>
+                        <div (click)="action='passe'" style="top:40%;right:0%;"><p>Set - Passe</p></div>
+                        <div (click)="action='recep'" [ngStyle]="{'bottom':(i==1||i==2||i==3)?'0%':'10%','left':'0%'}"><p>Reception</p></div>
+                        <div (click)="action='defen'" [ngStyle]="{'bottom':(i==1||i==2||i==3)?'0%':'10%','right':'0%'}"><p>Defense</p></div>
+                    </div>
+                </div>
+
+                <div *ngIf="joueurClicked==joueur&&action!=undefined" style="width:100%;height:100%;position:absolute;">
+                    <div class="choix result" style="position: absolute;z-index:2;">
+                        <div (click)="clickResult('fauted')" style="top:0%;left:0%;background-color:rgb(255, 100, 100)"><p>Faute Directe</p></div>
+                        <div (click)="clickResult('neutre')" style="top:0%;right:0%;background-color:rgb(100, 100, 255)"><p>Neutre</p></div>
+                        <div (click)="clickResult('positi')" style="bottom:0%;left:0%;background-color:rgb(255, 200, 100)"><p>Positif</p></div>
+                        <div (click)="clickResult('pointd')" style="bottom:0%;right:0%;background-color:rgb(100, 255, 100)"><p>Point Direct</p></div>
+                    </div>
+                </div>
+
+                <div class="infos">
+                    <p>{{joueur.prenom}}</p>
+                    <p>{{joueur.nom}}</p>
+                    <p>{{joueur.numero}}</p>
+                </div>
+
             </div>
-
-            <div class="joueursAvant" style="border-top:10px solid white;">
-
-            </div>
-
         </div>
         
         <div *ngIf="cote==false" class="autreCote"></div>
@@ -53,34 +82,42 @@
 
     <div class="tabDiv" style="margin-top:2%;padding:10px;">
             
-        <div class="thDiv">
-            <p>PRENOM</p>
-            <p>NOM</p>
-        </div>
-
-        <div class="scrollable" style="max-height:300px;">
-            <div class="tdDiv clickable" *ngFor="let eleve of getEquipe()">
-                <p>{{eleve.prenom}}</p>
-                <p>{{eleve.nom}}</p>
-            </div>
-        </div>
-
-        <div class="tfDiv">
-            <div style="margin:1%">
-                <select [(ngModel)]="selectedTeamAddPlayer" style="width:100%;">
-                    <option *ngFor="let team of getOtherTeams()" [ngValue]="team">{{team.nom}}</option>
-                </select>
-                <select [(ngModel)]="selectedPlayerAdd" (change)="changePlayerSelected()" style="width:100%;">
-                    <option *ngFor="let player of getplayersSelectedTeam()" [ngValue]="player">{{player.prenom}}&nbsp;{{player.nom}}</option>
-                </select>
+            <div class="thDiv">
+                <p>PRENOM</p>
+                <p>NOM</p>
             </div>
 
-            <input style="width:20%;height:100%;margin:auto;margin-right:1%;margin-left:1%" type="text" [(ngModel)]="prenomAdd" placeholder="Prénom.."/>
-            <input style="width:20%;height:100%;margin:auto;" type="text" [(ngModel)]="nomAdd" placeholder="Nom.."/>
+            <div class="scrollable" style="max-height:300px;">
+                <div class="tdDiv clickable in" *ngFor="let eleve of joueurs" (click)="clickEleve(eleve)">
+                    <p>{{eleve.prenom}}</p>
+                    <p>{{eleve.nom}}</p>
+                </div>
+                <div class="tdDiv clickable" *ngFor="let eleve of getOthers()" (click)="clickEleve(eleve)">
+                    <p>{{eleve.prenom}}</p>
+                    <p>{{eleve.nom}}</p>
+                </div>
+            </div>            
 
-            <button style="white-space:nowrap;margin: 1% 1% 1% 2%;" type="button" class="secondButton" (click)="ajouterJoueur()">Ajouter joueur</button>
+            <div class="tfDiv">
+                <div style="margin:1%">
+
+                    <select [(ngModel)]="select.team" style="width:100%;" (change)="select.sex=select.team.equipes[0];select.player=undefined">
+                        <option *ngFor="let team of getOtherTeams()" [ngValue]="team">{{team.nom}}</option>
+                    </select>
+                    <select [(ngModel)]="select.sex" style="width:100%;" (change)="select.player=undefined">
+                        <option *ngFor="let sex of getSexs()" [ngValue]="sex">{{sex.nom}}</option>
+                    </select>
+                    <select [(ngModel)]="select.player" (change)="changePlayerSelected()" style="width:100%;">
+                        <option *ngFor="let player of getplayersSelectedTeam()" [ngValue]="player">{{player.prenom}}&nbsp;{{player.nom}}</option>
+                    </select>
+                </div>
+
+                <input style="width:20%;height:100%;margin:auto;margin-right:1%;margin-left:1%" type="text" [(ngModel)]="select.prenom" placeholder="Prénom.."/>
+                <input style="width:20%;height:100%;margin:auto;" type="text" [(ngModel)]="select.nom" placeholder="Nom.."/>
+
+                <button style="white-space:nowrap;margin: 1% 1% 1% 2%;" type="button" class="secondButton" (click)="ajouterJoueur()">Ajouter joueur</button>
+            </div>
+
         </div>
-
-    </div>
 
 </div>

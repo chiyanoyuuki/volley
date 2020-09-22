@@ -1,0 +1,94 @@
+[
+    {
+        "nom":"Loisirs",
+        "equipes":
+        [
+            {
+                "nom":"Masculine",
+                "joueurs":[],
+                "entrainements":
+                [
+                    {"jour":"LUNDI",    "creneaux":[]},
+                    {"jour":"MARDI"   , "creneaux":[]},
+                    {"jour":"MERCREDI", "creneaux":[{"debut":"20h00","fin":"22h00","gymnase":"P.HEDE"}]},
+                    {"jour":"JEUDI",    "creneaux":[]},
+                    {"jour":"VENDREDI", "creneaux":[]},
+                    {"jour":"SAMEDI",   "creneaux":[]},
+                    {"jour":"DIMANCHE", "creneaux":[]}
+                ]
+            }
+        ]
+    },
+    {
+        "nom":"Inter-Dèp",
+        "equipes":
+        [
+            {
+                "nom":"Masculine",
+                "joueurs":
+                [
+                    {"prenom":"Brice",      "nom":"HOARAU",     "numero":1},
+                    {"prenom":"Mathieu",    "nom":"COYETTE",    "numero":2},
+                    {"prenom":"Axel",       "nom":"DEFRANCE",   "numero":3},
+                    {"prenom":"Theo",       "nom":"KABA",       "numero":4},
+                    {"prenom":"Kemil",      "nom":"MEDANI",     "numero":5},
+                    {"prenom":"Clément",    "nom":"MONCHIET",   "numero":6},
+                    {"prenom":"Remy",       "nom":"PAILLE",     "numero":7},
+                    {"prenom":"Étienne",    "nom":"RASSE",      "numero":8},
+                    {"prenom":"Clément",    "nom":"ROBIN",      "numero":9},
+                    {"prenom":"Charles",    "nom":"POURE",      "numero":10},
+                    {"prenom":"Paul",       "nom":"LEMAIRE",    "numero":11},
+                    {"prenom":"Nicolas",    "nom":"GERMACK",    "numero":12},
+                    {"prenom":"Ata",        "nom":"TOZ",        "numero":13}
+                ],
+                "entrainements":
+                [
+                    {"jour":"LUNDI",    "creneaux":[]},
+                    {"jour":"MARDI"   , "creneaux":[{"debut":"20h00","fin":"22h00","gymnase":"P.HEDE"}]},
+                    {"jour":"MERCREDI", "creneaux":[]},
+                    {"jour":"JEUDI",    "creneaux":[{"debut":"18h00","fin":"20h00","gymnase":"G.VALLEREY"}]},
+                    {"jour":"VENDREDI", "creneaux":[]},
+                    {"jour":"SAMEDI",   "creneaux":[{"debut":"13h00","fin":"17h00","gymnase":"G.PELLERIN"}]},
+                    {"jour":"DIMANCHE", "creneaux":[]}
+                ]
+            }
+        ]
+    },
+    {
+        "nom":"Pré-Nat",
+        "equipes":
+        [
+            {
+                "nom":"Masculine",
+                "joueurs":
+                [
+                    {"prenom":"Alexis",     "nom":"DUBOIS",         "numero":1},
+                    {"prenom":"Emmanuel",   "nom":"ALFRED",         "numero":2},
+                    {"prenom":"Guillaume",  "nom":"BAUJOIN",        "numero":3},
+                    {"prenom":"Guillaume",  "nom":"SERVAIS",        "numero":4},
+                    {"prenom":"Lucas",      "nom":"LEBOUC",         "numero":5},
+                    {"prenom":"Ludovic",    "nom":"GUILLET",        "numero":6},
+                    {"prenom":"Marc",       "nom":"DURR",           "numero":7},
+                    {"prenom":"Mathéo",     "nom":"DEROY",          "numero":8},
+                    {"prenom":"Maxime",     "nom":"CADART",         "numero":9},
+                    {"prenom":"Pierre-Loup","nom":"VAN KEIRSBLICK", "numero":10},
+                    {"prenom":"Remy",       "nom":"GAILLIEN",       "numero":11},
+                    {"prenom":"Sanka",      "nom":"CLAIR",          "numero":12},
+                    {"prenom":"Soheil",     "nom":"MOKKADEM",       "numero":13},
+                    {"prenom":"Théo",       "nom":"MOUGDON",        "numero":14},
+                    {"prenom":"Hugo",       "nom":"MINOT",          "numero":15}
+                ],
+                "entrainements":
+                [
+                    {"jour":"LUNDI",    "creneaux":[{"debut":"20h00","fin":"22h30","gymnase":"P.HEDE"}]},
+                    {"jour":"MARDI"   , "creneaux":[]},
+                    {"jour":"MERCREDI", "creneaux":[]},
+                    {"jour":"JEUDI",    "creneaux":[{"debut":"20h00","fin":"22h30","gymnase":"G.PELLERIN"}]},
+                    {"jour":"VENDREDI", "creneaux":[]},
+                    {"jour":"SAMEDI",   "creneaux":[{"debut":"18h00","fin":"22h30","gymnase":"G.PELLERIN"}]},
+                    {"jour":"DIMANCHE", "creneaux":[]}
+                ]
+            }
+        ]
+    }
+]
