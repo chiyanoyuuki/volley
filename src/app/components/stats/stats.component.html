@@ -26,61 +26,61 @@
     </div>
 
     <div class="divStatsTerrain">
+
+        <div class="autreCote">
+            <div class="clickable" (click)="clickAdverse()"
+            style="width:30%;height:70%;position:relative;top:5%;margin:auto;background-color:black;color:white;border-radius:10px;border:5px solid white;font-weight:bold;">
+                <p>{{adverse}}</p>
+            </div>
+        </div>
+        <div class="filet"></div>
+
         <div *ngIf="cote==true" class="terrain">
 
-            <div style="height:5px;width:100%;background-color:white;position:relative;top:60%"></div>
+            <div style="height:5px;width:100%;background-color:white;position:relative;top:40%"></div>
 
-            <div class="joueur" (click)="joueurClicked!=joueur?action=undefined:null;joueurClicked=joueur" [ngClass]="i==0||i==4||i==5?'joueurArriere':'joueurAvant'" *ngFor="let joueur of joueurs;let i = index"
-            [ngStyle]="{'left':(i==5||i==2)?'33%':(i==4||i==3)?'67%':'0%','height':(i==1||i==2||i==3)?'40%':'60%','top':(i==1||i==2||i==3)?'60%':'0%','width':(i==5||i==2)?'34%':'33%'}">
+            <div class="joueur" (click)="joueurClicked!=joueur?action=undefined:null;joueurClicked=joueur;adverse='POINT ADVERSE'" *ngFor="let joueur of joueurs;let i = index"
+            [ngClass]="i==0||i==4||i==5?'joueurArriere':'joueurAvant'"
+            [ngStyle]="{'left':(i==5||i==2)?'33%':(i==1||i==0)?'67%':'0%','height':(i==1||i==2||i==3)?'40%':'60%','top':(i==1||i==2||i==3)?'0%':'40%','width':(i==5||i==2)?'34%':'33%'}">
 
                 <div *ngIf="joueurClicked==joueur&&action==undefined" style="width:100%;height:100%;position:absolute;">
                     <div class="choix actions" style="position: absolute;z-index:2;">
-                        <div (click)="action='spike'" style="top:10%;left:0%;"><p>Spike</p></div>
-                        <div (click)="action='block'" style="top:10%;right:0%;"><p>Block</p></div>
-                        <div (click)="action='servi'" style="top:40%;left:0%;"><p>Service</p></div>
-                        <div (click)="action='passe'" style="top:40%;right:0%;"><p>Set - Passe</p></div>
-                        <div (click)="action='recep'" [ngStyle]="{'bottom':(i==1||i==2||i==3)?'0%':'10%','left':'0%'}"><p>Reception</p></div>
-                        <div (click)="action='defen'" [ngStyle]="{'bottom':(i==1||i==2||i==3)?'0%':'10%','right':'0%'}"><p>Defense</p></div>
+                        <div (click)="action='ATTAQUE'" style="top:0%;"><p>ATTAQUE</p></div>
+                        <div (click)="action='BLOC'" style="top:0%;right:0%"><p>BLOC</p></div>
+                        <div (click)="action='SERVICE'" style="top:33%"><p>SERVICE</p></div>
+                        <div (click)="action='PASSE'" style="top:33%;right:0%"><p>PASSE</p></div>
+                        <div (click)="action='RECEPTION'" style="bottom:0%;"><p>RECEPTION</p></div>
+                        <div (click)="action='DEFENSE'" style="bottom:0%;right:0%;"><p>DEFENSE</p></div>
                     </div>
                 </div>
 
                 <div *ngIf="joueurClicked==joueur&&action!=undefined" style="width:100%;height:100%;position:absolute;">
                     <div class="choix result" style="position: absolute;z-index:2;">
-                        <div (click)="clickResult('fauted')" style="top:0%;left:0%;background-color:rgb(255, 100, 100)"><p>Faute Directe</p></div>
-                        <div (click)="clickResult('neutre')" style="top:0%;right:0%;background-color:rgb(100, 100, 255)"><p>Neutre</p></div>
-                        <div (click)="clickResult('positi')" style="bottom:0%;left:0%;background-color:rgb(255, 200, 100)"><p>Positif</p></div>
-                        <div (click)="clickResult('pointd')" style="bottom:0%;right:0%;background-color:rgb(100, 255, 100)"><p>Point Direct</p></div>
+                        <div (click)="action=undefined"         style="top:0%;background-color:black;color:white;width:99%;height:20%;"><p style="top:15%;">{{action}}</p></div>
+                        <div (click)="clickResult('POINT')"     style="top:20%;background-color:rgb(100, 255, 100)"><p>POINT</p></div>
+                        <div (click)="clickResult('FAUTE')"     style="top:20%;right:0%;background-color:rgb(255, 100, 100)"><p>FAUTE</p></div>
+                        <div (click)="clickResult('POSITIF')"   style="bottom:0%;background-color:rgb(255, 200, 100)"><p>POSITIF</p></div>
+                        <div (click)="clickResult('NEUTRE')"    style="bottom:0%;right:0%;background-color:rgb(100, 100, 255)"><p>NEUTRE</p></div>
                     </div>
                 </div>
 
                 <div class="infos">
-                    <p>{{joueur.prenom}}</p>
+                    <p>{{i+1}}&nbsp;-&nbsp;{{joueur.prenom}}</p>
                     <p>{{joueur.nom}}</p>
                     <p>{{joueur.numero}}</p>
                 </div>
 
             </div>
         </div>
-        
-        <div *ngIf="cote==false" class="autreCote"></div>
-        <div class="filet"></div>
-        <div *ngIf="cote==true" class="autreCote"></div>
-        
-        <!--
-        <div *ngIf="cote==false" class="terrain">
-
-            <div class="joueursAvant">
-
-            </div>
-
-            <div class="joueursArriere" style="border-top:10px solid white;">
-
-            </div>
-            
-        </div>-->
     </div>
 
-    <div class="tabDiv" style="margin-top:2%;padding:10px;">
+    <div class="menu" style="display:flex;">
+        <div class="clickable" [ngStyle]="{'background-color':menu=='equipe'?'#505050':'black'}" (click)="menu='equipe'"><p>Equipe</p></div>
+        <div class="clickable" [ngStyle]="{'background-color':menu=='actions'?'#505050':'black'}"(click)="menu='actions'"><p>Actions</p></div>
+        <div class="clickable" [ngStyle]="{'background-color':menu=='stats'?'#505050':'black'}"(click)="menu='stats'"><p>Stats</p></div>
+    </div>
+
+    <div class="tabDiv" style="margin-top:2%;padding:10px;" *ngIf="menu=='equipe'">
             
             <div class="thDiv">
                 <p>PRENOM</p>
@@ -118,6 +118,29 @@
                 <button style="white-space:nowrap;margin: 1% 1% 1% 2%;" type="button" class="secondButton" (click)="ajouterJoueur()">Ajouter joueur</button>
             </div>
 
+    </div>
+
+    <div class="tabDiv" style="margin-top:2%;padding:10px;" *ngIf="menu=='actions'">
+            
+        <div class="thDiv">
+            <p>JOUEUR</p>
+            <p>ACTION</p>
+            <p>RESULTAT</p>
         </div>
 
+        <div class="scrollable" style="max-height:300px;">
+            <div class="tdDiv clickable" *ngFor="let action of actions.slice().reverse()"
+            [ngStyle]="{'background-color':action.resultat=='POINT'?'rgb(200, 255, 200)':action.resultat=='FAUTE'?'rgb(255, 200, 200)':action.resultat=='POSITIF'?'rgb(255, 236, 200)':'rgb(200, 200, 255)'}">
+                <p>{{action.joueur.numero}}</p>
+                <p>{{action.action}}</p>
+                <p>{{action.resultat}}</p>
+            </div>
+        </div>            
+
+        <div class="tfDiv" style="height:40px;"></div>
+    </div>
+
+    <div *ngIf="menu=='stats'">
+        <p>Bientôt :p</p>
+    </div>
 </div>

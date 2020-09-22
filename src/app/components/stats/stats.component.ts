@@ -17,12 +17,16 @@ export class StatsComponent implements OnInit {
   select = {division:undefined,team:undefined,player:undefined,prenom:undefined,nom:undefined,
   sex:undefined,sexe:undefined};
   scores = {points1:0,sets1:0,points2:0,sets2:0}
+  actions = [];
 
   joueurs = [];
   equipes = [];
+  joueurClicked;
   action = undefined;
   cote = true;
   date;
+  menu = "equipe";
+  adverse = "POINT ADVERSE";
 
   ngOnInit(): void 
   {
@@ -106,9 +110,38 @@ export class StatsComponent implements OnInit {
 
   }
 
-  clickResult(action)
+  clickResult(result)
   {
+    if(result=="POINT")
+    {
+      this.scores.points1++;
+      if(this.scores.points1>=25&&this.scores.points1-this.scores.points2>1){this.scores.points1=0;this.scores.sets1++;this.scores.points2=0;}
+    }
+    else if(result=="FAUTE")
+    {
+      this.scores.points2++;
+      if(this.scores.points2>=25&&this.scores.points2-this.scores.points1>1){this.scores.points2=0;this.scores.sets2++;this.scores.points1=0;}
+    }
 
+    this.actions.push({joueur:this.joueurClicked,action:this.action,resultat:result});
+
+    this.joueurClicked = undefined;
+    this.action = undefined;
+  }
+
+  clickAdverse()
+  {
+    this.joueurClicked = undefined;
+    if(this.adverse=="POINT ADVERSE")
+    {
+      this.adverse = "VALIDER";
+    }
+    else if(this.adverse=="VALIDER")
+    {
+      this.adverse = "POINT ADVERSE";
+      this.scores.points2++;
+      if(this.scores.points2>=25&&this.scores.points2-this.scores.points1>1){this.scores.points2=0;this.scores.sets2++;this.scores.points1=0;}
+    }
   }
 
 }

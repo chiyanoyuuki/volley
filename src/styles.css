@@ -54,8 +54,11 @@ html, body                              {height:100%;}
 .divStats .joueur:hover                 {background-color:rgb(200, 100, 50);}
 
 .divStats .choix                        {height:100%;}
-.divStats .choix div                    {background-color:cornsilk;border-radius:100%;width:100px;height:50px;position: absolute;border:3px solid black;margin:0;font-weight: bold;}
-.divStats .choix p                      {height:100%;top:25%;position: relative;}
-.divStats .infos                        {position:relative;top:35%;background-color:white;border-radius:100%;width:60%;margin:auto;border:3px solid black;}
+.divStats .choix div                    {background-color:cornsilk;width:50%;height:33%;position: absolute;border:3px solid black;margin:0;font-weight: bold;}
+.divStats .choix p                      {height:100%;top:35%;position: relative;}
+.divStats .infos                        {position:relative;top:30%;background-color:white;width:60%;margin:auto;border:3px solid black;}
 .divStats .choix div:hover              {cursor:pointer;background-color:lightgray;}
-.divStats .result div                   {border-radius:100%;width:100px;height:80px;position: absolute;border:3px solid black;margin:0;font-weight: bold;}
+.divStats .result div                   {width:50%;height:40%;position: absolute;border:3px solid black;margin:0;font-weight: bold;}
+
+.divStats .menu                         {color:white;font-weight: bold;height:40px;width:60%;margin:auto;margin-top:2%;}
+.divStats .menu p                       {position: relative;top:15%;}
