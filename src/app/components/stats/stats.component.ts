@@ -17,12 +17,13 @@ export class StatsComponent implements OnInit {
   select = {division:undefined,team:undefined,player:undefined,prenom:undefined,nom:undefined,
   sex:undefined,sexe:undefined};
   scores = {points1:0,sets1:0,points2:0,sets2:0}
-  actions = [];
+  actions : {joueur:any,action:any,resultat:any}[] = [];
 
   joueurs = [];
   equipes = [];
   joueurClicked;
   action = undefined;
+  annuler = "Annuler dernière action";
   cote = true;
   date;
   menu = "equipe";
@@ -143,5 +144,26 @@ export class StatsComponent implements OnInit {
       if(this.scores.points2>=25&&this.scores.points2-this.scores.points1>1){this.scores.points2=0;this.scores.sets2++;this.scores.points1=0;}
     }
   }
+
+  annulerAction()
+  {
+    if(this.actions.length>0)
+    {
+      this.joueurClicked = undefined;
+      if(this.annuler=="Annuler dernière action")
+      {
+        this.annuler = "VALIDER";
+      }
+      else if(this.annuler=="VALIDER")
+      {
+        this.annuler = "Annuler dernière action";
+        let action : any = this.actions.pop();
+        if(action.resultat=="FAUTE"){this.scores.points2--;}
+        else if(action.resultat=="POINT"){this.scores.points1--;}
+      }
+    }
+  }
+
+  deleteAction(action){this.actions.splice(this.actions.indexOf(action),1);}
 
 }

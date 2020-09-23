@@ -1,5 +1,5 @@
 <div style="height:100%;">
-  <div style="position:fixed;left:0;">
+  <div style="position:fixed;left:0;z-index: 10;">
     <div class="compoHeader">
       <div class="header">
           <div [ngClass]="page=='presence'?'secondButton':'noClass'" class="clickable" (click)="page='presence'">
@@ -8,11 +8,49 @@
           <div [ngClass]="page=='stats'?'secondButton':'noClass'" class="clickable" (click)="page='stats'">
               <p>STATS</p>
           </div>
+          <div [ngClass]="page=='MAJ'?'secondButton':'noClass'" class="clickable" (click)="page='MAJ'">
+            <p>LAST UPDATE</p>
+          </div>
       </div>
   </div>
 </div>
   <div class="container" style="height:75%;">
     <app-accueil [hidden]="page!='presence'"></app-accueil>
     <app-stats [hidden]="page!='stats'"></app-stats>
+    <div [hidden]="page!='MAJ'">
+      <p>WORK IN PROGRESS : </p>
+      <br/>
+      <p>- Changement de joueurs</p>
+      <p>- Changement d'équipe automatisé</p>
+      <p>- Remplir le tableau avec un max de Stats</p>
+      <hr/>
+      <p>DONE LAST UPDATE :</p>
+      <br/>
+      <p>- Correction du bug d'affichage : Lors du scroll, les éléments chevauchaient les menus au top</p>
+      <p>- Implémentation du nom du joueur cliqué en tout temps dans les stats</p>
+      <p>- Bouton d'annulation de la dernière action ajoutée</p>
+      <p>- Double clic sur une action pour la supprimer</p>
+      <p>- Début du tableau des Stats en direct</p>
+      <br/>
+      <hr/>
+      <br/>
+      <p>Fonctionnement de la fiche de présence :</p>
+      <br/>
+      <p>Le programme détecte automatiquement parmis tous les créneaux du club, le plus probable d'être demandé à la date et l'heure de l'ouverture de la page</p>
+      <p>Si le créneau n'est pas celui désiré, l'utilisateur peut choisir sa division et le sexe des joueurs pour que le programme lui présente tous les créneaux du collectif choisi</p>
+      <p>Lors du clic sur un créneau, les informations DATE, HEURES, GYMNASE sont automatiquement rentrées dans les cases correspondantes. Libre l'utilisateur de changer la valeur de son choix</p>
+      <p>L'équipe choisie charge les joueurs automatiquement, libre à l'utilisateur d'ajouter ou non des joueurs d'autres divisions via le bas du tableau des joueurs ou de rentrer un nom à la main pour l'ajouter</p>
+      <p>Simple clic sur un joueur dans le tableau pour l'indiquer comme présent.</p>
+      <p>Envoi de la fiche de présence à une adresse mail rentrée au préalable (Pour l'instant la mienne)</p>
+      <br/>
+      <hr/>
+      <br/>
+      <p>Fonctionnement des Stats : (lorsque j'aurai toutes les données :p)</p>
+      <br/>
+      <p>Le programme charge selon le collectif choisi les 6 joueurs titulaires sur le terrain, à leur poste, libre à l'utilisateur de changer la position, le rôle ou le joueur</p>
+      <p>Clic sur un joueur, puis sur l'action effectuée, puis sur le résultat de l'action</p>
+      <p>Les actions sont affichées en temps réèl dans l'onglet action, les stats dans l'onglet stats</p>
+
+    </div>
   </div>
 </div>
