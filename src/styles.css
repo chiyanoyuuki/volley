@@ -24,7 +24,14 @@ html, body                              {height:100%;}
 .secondButton                           {background-color:#eaeaea;color:black;}
 .secondButton:hover                     {background-color:black;color:white;border:3px solid #aeaeae;}
 .thDiv                                  {display:flex;background-color:black;border-top-left-radius:15px;border-top-right-radius:15px;color:white;font-weight:bold;}
+.thDiv2                                 {display:flex;background-color:black;border-top-left-radius:15px;border-top-right-radius:15px;color:white;font-weight:bold;}
+.thDiv2 div                             {border-left:1px solid white;min-width:10%;}
 .tdDiv                                  {display:flex;background-color:white;color:#505050;border-bottom:1px solid#aeaeae;}
+.tdDiv div                              {display:flex;border-left:1px solid white;}
+.tdDiv2                                 {display:flex;background-color:white;color:#505050;border-bottom:1px solid#aeaeae;}
+.tdDiv2 div                             {display:flex;border-left:1px solid black;}
+.tdDiv2 div p:first-child               {color:rgb(50, 150, 50)}
+.tdDiv2 div p:last-child                {color:rgb(150, 50, 50)}
 .tfDiv                                  {display:flex;background-color:black;border-bottom-left-radius:15px;border-bottom-right-radius:15px;color:white;}
 .tdDiv p	                            {margin:5px;}
 .thDiv p                                {margin:15px;}

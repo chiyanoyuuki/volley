@@ -18,6 +18,7 @@ export class StatsComponent implements OnInit {
   sex:undefined,sexe:undefined};
   scores = {points1:0,sets1:0,points2:0,sets2:0}
   actions : {joueur:any,action:any,resultat:any}[] = [];
+  stats : {joueur:any,actions:any}[] = [];
 
   joueurs = [];
   equipes = [];
@@ -71,6 +72,40 @@ export class StatsComponent implements OnInit {
   getSexes(){return this.select.division.equipes;}
   getOtherTeams(){return this.equipes.filter(e=>e.nom!=this.select.division.nom&&e.nom!='Loisirs');}
   getOthers(){return this.select.sexe.joueurs.filter(e=>!this.joueurs.includes(e));}
+  getStats(actions,action,resultat){let tmp = actions.filter(e=>e.action==action&&e.resultat==resultat).length;return tmp>0?tmp:' ';}
+  getData(actions,demande)
+  {
+    if(demande=="VOLUME"){return actions.length}
+    else if(demande=="EFFATTAQUE")
+    {
+      let tot=actions.filter(e=>e.action=="ATTAQUE").length;
+      let totpos=actions.filter(e=>e.action=="ATTAQUE"&&(e.resultat=="POSITIF"||e.resultat=="POINT")).length;
+      if(tot==0)return ' ';
+      return ((totpos/tot)*100).toFixed()+'%';
+    }
+    else if(demande=="EFFRECEPTION")
+    {
+      let tot=actions.filter(e=>e.action=="RECEPTION").length;
+      let totpos=actions.filter(e=>e.action=="RECEPTION"&&(e.resultat=="POSITIF"||e.resultat=="POINT")).length;
+      if(tot==0)return ' ';
+      return ((totpos/tot)*100).toFixed()+'%';
+    }
+    else if(demande=="EFFDEFENSE")
+    {
+      let tot=actions.filter(e=>e.action=="DEFENSE").length;
+      let totpos=actions.filter(e=>e.action=="DEFENSE"&&(e.resultat=="POSITIF"||e.resultat=="POINT")).length;
+      if(tot==0)return ' ';
+      return ((totpos/tot)*100).toFixed()+'%';
+    }
+    else if(demande=="POINTSFAUTES"||demande=="RENDEMENT")
+    {
+      let totpoints=actions.filter(e=>e.resultat=="POINT").length;
+      let totfautes=actions.filter(e=>e.resultat=="FAUTE").length;
+      if(totpoints==0)return ' ';
+      if(demande=="POINTSFAUTES")return totpoints+'/'+totfautes;
+      if(demande=="RENDEMENT")return (((totpoints-totfautes)/totpoints)*100).toFixed()+'%';
+    }
+  }
 
   //OTHERS ============================================================================
 
@@ -124,11 +159,18 @@ export class StatsComponent implements OnInit {
       if(this.scores.points2>=25&&this.scores.points2-this.scores.points1>1){this.scores.points2=0;this.scores.sets2++;this.scores.points1=0;}
     }
 
-    this.actions.push({joueur:this.joueurClicked,action:this.action,resultat:result});
+    let action = {joueur:this.joueurClicked,action:this.action,resultat:result};
+    this.actions.push(action);
+
+    let joueur = this.stats.find(e=>e.joueur==action.joueur);
+    if(joueur){joueur.actions.push(action);}
+    else{this.stats.push({joueur:action.joueur,actions:[action]});}
 
     this.joueurClicked = undefined;
     this.action = undefined;
   }
+
+
 
   clickAdverse()
   {

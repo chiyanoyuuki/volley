@@ -151,15 +151,82 @@
         </div>
     </div>
 
-    <div class="tabDiv" *ngIf="menu=='stats'" style="margin-top:2%;width:120%;left:-10%;position: relative;">
-        <div class="thDiv">
-            <p>JOUEUR</p>
-            <p>SERVICE</p>
-            <p>BLOC</p>
-            <p>PASSE</p>
-            <p>DEFENSE</p>
-            <p>RECEPTION</p>
-            <p>ATTAQUE</p>
+    <div class="tabDiv" *ngIf="menu=='stats'" style="margin-top:2%;margin-bottom:10%;width:120%;left:-10%;position: relative;min-width:800px;">
+        <div class="thDiv2">
+            <div style="min-width:170px;border:unset;"><p>JOUEUR</p></div>
+
+            <div><div><p>SERVICE</p>    </div><div style="display:flex;"><p>P</p><p>+</p><p>=</p><p>F</p></div></div>
+            <div><div><p>ATTAQUE</p>    </div><div style="display:flex;"><p>P</p><p>+</p><p>=</p><p>F</p></div></div>
+            <div><div><p>RECEPTION</p>  </div><div style="display:flex;"><p>P</p><p>+</p><p>=</p><p>F</p></div></div>
+            <div><div><p>DEFENSE</p>    </div><div style="display:flex;"><p>P</p><p>+</p><p>=</p><p>F</p></div></div>
+            <div><div><p>BLOC</p>       </div><div style="display:flex;"><p>P</p><p>+</p><p>=</p><p>F</p></div></div>
+            <div><div><p>PASSE</p>      </div><div style="display:flex;"><p>P</p><p>+</p><p>=</p><p>F</p></div></div>
         </div>
+
+        <div class="scrollable" style="max-height:300px;">
+            <div class="tdDiv2" *ngFor="let stat of stats;let i = index" [ngStyle]="{'background-color':i%2!=0?'#cccccc':'white'}">
+                <div style="min-width:170px;border:unset;color:black;"><p>{{stat.joueur.numero}}&nbsp;-&nbsp;{{stat.joueur.prenom}}</p></div>
+                <div>
+                    <p>{{getStats(stat.actions,'SERVICE','POINT')}}</p>
+                    <p>{{getStats(stat.actions,'SERVICE','POSITIF')}}</p>
+                    <p>{{getStats(stat.actions,'SERVICE','NEUTRE')}}</p>
+                    <p>{{getStats(stat.actions,'SERVICE','FAUTE')}}</p>
+                </div>
+                <div>
+                    <p>{{getStats(stat.actions,'ATTAQUE','POINT')}}</p>
+                    <p>{{getStats(stat.actions,'ATTAQUE','POSITIF')}}</p>
+                    <p>{{getStats(stat.actions,'ATTAQUE','NEUTRE')}}</p>
+                    <p>{{getStats(stat.actions,'ATTAQUE','FAUTE')}}</p>
+                </div>
+                <div>
+                    <p>{{getStats(stat.actions,'RECEPTION','POINT')}}</p>
+                    <p>{{getStats(stat.actions,'RECEPTION','POSITIF')}}</p>
+                    <p>{{getStats(stat.actions,'RECEPTION','NEUTRE')}}</p>
+                    <p>{{getStats(stat.actions,'RECEPTION','FAUTE')}}</p>
+                </div>
+                <div>
+                    <p>{{getStats(stat.actions,'DEFENSE','POINT')}}</p>
+                    <p>{{getStats(stat.actions,'DEFENSE','POSITIF')}}</p>
+                    <p>{{getStats(stat.actions,'DEFENSE','NEUTRE')}}</p>
+                    <p>{{getStats(stat.actions,'DEFENSE','FAUTE')}}</p>
+                </div>
+                <div>
+                    <p>{{getStats(stat.actions,'BLOC','POINT')}}</p>
+                    <p>{{getStats(stat.actions,'BLOC','POSITIF')}}</p>
+                    <p>{{getStats(stat.actions,'BLOC','NEUTRE')}}</p>
+                    <p>{{getStats(stat.actions,'BLOC','FAUTE')}}</p>
+                </div>
+                <div>
+                    <p>{{getStats(stat.actions,'PASSE','POINT')}}</p>
+                    <p>{{getStats(stat.actions,'PASSE','POSITIF')}}</p>
+                    <p>{{getStats(stat.actions,'PASSE','NEUTRE')}}</p>
+                    <p>{{getStats(stat.actions,'PASSE','FAUTE')}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="thDiv2" style="margin-top:2%;">
+            <div style="min-width:170px;border:unset;"><p>JOUEUR</p></div>
+
+            <div><p>VOLUME</p>                 </div>
+            <div><p>EFF.<br/> ATTAQUE</p>      </div>
+            <div><p>EFF.<br/> RECEPTION</p>    </div>
+            <div><p>EFF.<br/> DEFENSE</p>      </div>
+            <div><p>POINTS<br/>/FAUTES</p>          </div>
+            <div><p>RENDEMENT</p>              </div>
+        </div>
+
+        <div class="scrollable" style="max-height:300px;">
+            <div class="tdDiv2" *ngFor="let stat of stats;let i = index" [ngStyle]="{'background-color':i%2!=0?'#cccccc':'white'}">
+                <div style="min-width:170px;border:unset;color:black;"><p>{{stat.joueur.numero}}&nbsp;-&nbsp;{{stat.joueur.prenom}}</p></div>
+                <div><p>{{getData(stat.actions,'VOLUME')}}</p></div>
+                <div><p>{{getData(stat.actions,'EFFATTAQUE')}}</p></div>
+                <div><p>{{getData(stat.actions,'EFFRECEPTION')}}</p></div>
+                <div><p>{{getData(stat.actions,'EFFDEFENSE')}}</p></div>
+                <div><p>{{getData(stat.actions,'POINTSFAUTES')}}</p></div>
+                <div><p>{{getData(stat.actions,'RENDEMENT')}}</p></div>
+            </div>
+        </div>
+
     </div>
 </div>
