@@ -207,7 +207,7 @@ export class StatsComponent implements OnInit {
   {
     this.service = !this.service;
     this.central();
-    if(!this.service)this.libero();
+    this.libero();
   }
 
   setService(bool)
@@ -215,14 +215,14 @@ export class StatsComponent implements OnInit {
     this.service=bool;
     this.message=5;
     this.central();
-    if(!bool)this.libero();
+    this.libero();
   }
 
   rotation()
   {
     this.nb++;
     this.central();
-    if(!this.service)this.libero();
+    this.libero();
   }
 
   central()
@@ -241,7 +241,7 @@ export class StatsComponent implements OnInit {
   {
     let central;
     let i =-1;
-    if(this.joueurs[(0+this.nb)%6].role=="CENTRAL")i = (0+this.nb)%6;
+    if(this.joueurs[(0+this.nb)%6].role=="CENTRAL"&&!this.service)i = (0+this.nb)%6;
     else if(this.joueurs[(4+this.nb)%6].role=="CENTRAL")i = (4+this.nb)%6;
     else if(this.joueurs[(5+this.nb)%6].role=="CENTRAL")i = (5+this.nb)%6;
     if(i!=-1)
@@ -289,14 +289,25 @@ export class StatsComponent implements OnInit {
     {
       if(this.eleveClicked!=undefined)
       {
-        let i = this.joueurs.indexOf(this.eleveClicked);
-        let sort = this.joueurs[i];
-
-        eleve.role = sort.role;
-        sort.role = "";
-
-        this.joueurs[i]=eleve;
-        this.joueurClicked=undefined;
+        if(this.eleveClicked==this.joueurCote)
+        {
+          eleve.role = this.joueurCote.role;
+          this.joueurCote.role = "";
+  
+          this.joueurCote=eleve;
+          this.joueurClicked=undefined;
+        }
+        else
+        {
+          let i = this.joueurs.indexOf(this.eleveClicked);
+          let sort = this.joueurs[i];
+  
+          eleve.role = sort.role;
+          sort.role = "";
+  
+          this.joueurs[i]=eleve;
+          this.joueurClicked=undefined;
+        }
       }
     }
   }
