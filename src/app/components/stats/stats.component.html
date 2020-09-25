@@ -5,7 +5,7 @@
         <p style="margin-top:2px;margin-bottom:2px;">{{date}}</p>
         <div style="display:flex;width:60%;margin:auto;">
             <select [(ngModel)]="select.division" style="margin-right:1%" (change)="select.sexe=select.division.equipes[0];select.team=getOtherTeams()[0];select.sex=select.team.equipes[0]">
-                <option *ngFor="let division of equipes" [ngValue]="division">{{division.nom}}</option>
+                <option *ngFor="let division of equipes" [hidden]="division.nom=='Loisirs'" [ngValue]="division">{{division.nom}}</option>
             </select>
             <select [(ngModel)]="select.sexe" style="margin-left:1%">
                 <option *ngFor="let sexe of getSexes()" [ngValue]="sexe">{{sexe.nom}}</option>
@@ -25,6 +25,11 @@
         </div>
     </div>
 
+    <div style="width:40%;margin:auto;margin-bottom:1%;display:flex;">
+        <div><button type="button" (click)="changeService2()"><p>Service à {{service?'nous':'eux'}}</p></button></div>
+        <div><button type="button" (click)="rotation()"><p>Rotation</p></button></div>
+    </div>
+
     <div class="divStatsTerrain">
 
         <div class="autreCote">
@@ -39,11 +44,11 @@
 
             <div style="height:5px;width:100%;background-color:white;position:relative;top:40%"></div>
 
-            <div class="joueur" (click)="joueurClicked!=joueur?action=undefined:null;joueurClicked=joueur;adverse='POINT ADVERSE'" *ngFor="let joueur of joueurs;let i = index"
+            <div class="joueur" *ngFor="let joueur of getTerrain();let i = index" (click)="clickJoueur((i+nb)%6,joueur)"
             [ngClass]="i==0||i==4||i==5?'joueurArriere':'joueurAvant'"
             [ngStyle]="{'left':(i==5||i==2)?'33%':(i==1||i==0)?'67%':'0%','height':(i==1||i==2||i==3)?'40%':'60%','top':(i==1||i==2||i==3)?'0%':'40%','width':(i==5||i==2)?'34%':'33%'}">
 
-                <div *ngIf="joueurClicked==joueur" style="background-color:black;color:white;height:10%;">
+                <div *ngIf="joueurClicked==joueur||(eleveClicked==joueur&&message==2)" (click)="joueurClicked=undefined;" style="background-color:black;color:white;height:10%;">
                     <p>{{joueur.numero}}&nbsp;{{joueur.prenom}}&nbsp;{{joueur.nom}}</p>
                 </div>
 
@@ -68,10 +73,22 @@
                     </div>
                 </div>
 
-                <div class="infos">
-                    <p>{{i+1}}&nbsp;-&nbsp;{{joueur.prenom}}</p>
-                    <p>{{joueur.nom}}</p>
-                    <p>{{joueur.numero}}</p>
+                <div *ngIf="eleveClicked==joueur&&message==2" style="width:100%;height:100%;position:absolute;">
+                    <div class="choix result" style="position: absolute;z-index:2;">
+                        <div (click)="cancelRole(i)" style="top:0%;background-color:black;color:white;border:unset;width:100%;height:20%;"><p style="top:15%;">ANNULER</p></div>
+                        <div (click)="clickRole('R4')"     style="top:20%;"><p>R4</p></div>
+                        <div (click)="clickRole('PASSEUR')"     style="top:20%;right:0%;"><p>PASSEUR</p></div>
+                        <div (click)="clickRole('POINTU')"   style="bottom:0%;"><p>POINTU</p></div>
+                        <div (click)="clickRole('CENTRAL')"    style="bottom:0%;right:0%;"><p>CENTRAL</p></div>
+                    </div>
+                </div>
+
+                <div class="infos" [ngStyle]="{'background-color':joueur.role=='LIBERO'?'black':'white','border-color':joueur.role=='LIBERO'?'white':'black'}">
+                    <p style="color:#808080">{{i+1}}</p>
+                    <p *ngIf="joueur.capitaine" style="color:darkgreen">Capitaine</p>
+                    <p [ngStyle]="{'color':joueur.role=='LIBERO'?'white':'black'}">{{joueur.numero}}&nbsp;{{joueur.prenom}}</p>
+                    <p [ngStyle]="{'color':joueur.role=='LIBERO'?'white':'black'}">{{joueur.nom}}</p>
+                    <p style="color:red;">{{joueur.role}}</p>
                 </div>
 
             </div>
@@ -86,19 +103,44 @@
 
     <div class="tabDiv" style="margin-top:2%;padding:10px;" *ngIf="menu=='equipe'">
             
+            <div style="margin-bottom:2%;display:flex">
+               <p style="font-weight: bold;color:red;">{{messages[message]}}</p> 
+                <div style="display:flex;" *ngIf="message==4">
+                    <button type="button" (click)="setService(true)" style="margin:unset"><p>Nous</p></button>
+                    <button type="button" (click)="setService(false)" style="margin:unset;margin-left:2%;"><p>Eux</p></button>
+                </div>
+            </div>
+
             <div class="thDiv">
+                <p>ROLE</p>
                 <p>PRENOM</p>
                 <p>NOM</p>
             </div>
 
             <div class="scrollable" style="max-height:300px;">
-                <div class="tdDiv clickable in" *ngFor="let eleve of joueurs" (click)="clickEleve(eleve)">
-                    <p>{{eleve.prenom}}</p>
-                    <p>{{eleve.nom}}</p>
+                <div class="tdDiv clickable in" *ngFor="let eleve of getJoueurs()" (click)="clickEquipe(eleve)" [ngStyle]="{'color':eleve.capitaine?'darkgreen':'#505050','background-color':eleve==joueurCote?'#cacaca':'rgb(255, 170, 130)'}">
+                    <div *ngIf="eleveClicked!=eleve">
+                        <p>{{eleve.role}}</p>
+                        <p>{{eleve.prenom}}</p>
+                        <p>{{eleve.nom}}</p>
+                    </div>
+                    <div *ngIf="eleveClicked==eleve">
+                        <p *ngIf="message==3" style="color:red;">Valider {{eleve.prenom}}&nbsp;{{eleve.nom}} comme capitaine</p>
+                        <p *ngIf="message==5" style="color:red;">Cliquez sur le joueur qui devra remplacer {{eleve.prenom}}&nbsp;{{eleve.nom}}</p>
+                    </div>
                 </div>
                 <div class="tdDiv clickable" *ngFor="let eleve of getOthers()" (click)="clickEleve(eleve)">
-                    <p>{{eleve.prenom}}</p>
-                    <p>{{eleve.nom}}</p>
+                    <div *ngIf="eleveClicked!=eleve" [ngStyle]="{'color':eleve.capitaine?'darkgreen':'#505050'}">
+                        <p>-</p>
+                        <p>{{eleve.prenom}}</p>
+                        <p>{{eleve.nom}}</p>
+                    </div>
+                    <div *ngIf="eleveClicked==eleve">
+                        <p *ngIf="message==0" style="color:red;">Valider {{eleve.prenom}}&nbsp;{{eleve.nom}} comme libéro</p>
+                        <p *ngIf="message==1" style="color:red;">Placez {{eleve.prenom}}&nbsp;{{eleve.nom}} sur le terrain</p>
+                        <p *ngIf="message==2" style="color:red;">Choisissez le rôle de {{eleve.prenom}}&nbsp;{{eleve.nom}}</p>
+                        <p *ngIf="message==3" style="color:red;">Valider {{eleve.prenom}}&nbsp;{{eleve.nom}} comme capitaine</p>
+                    </div>
                 </div>
             </div>            
 

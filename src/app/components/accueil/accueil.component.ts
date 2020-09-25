@@ -19,7 +19,10 @@ export class AccueilComponent implements OnInit
     fin:undefined,team:undefined,player:undefined,prenom:undefined,nom:undefined,sex:undefined};
 
 
-  equipes = []; 
+  public equipes:{nom:string,equipes:{nom:string,
+    joueurs:{prenom:string,nom:string,numero:number,absent?:boolean}[],
+    entrainements:{jour:string,creneaux:{debut:string,fin:string,gymnase:string}[]}[]}[]}[] = equipes; 
+
   entrainement;
   jourEntrainement;
   jour;
@@ -59,7 +62,13 @@ export class AccueilComponent implements OnInit
 
   getEntrainement()
   {
-    this.entrainement = null;
+    let division = this.equipes.find(e=>e.nom!="Loisirs");
+    let sexe = division.equipes[0];
+    let jour = sexe.entrainements.find(e=>e.creneaux.length>0);
+    let creneaux = jour.creneaux[0];
+    this.setEntrainement(division,sexe,creneaux,jour.jour);
+
+    /*this.entrainement = null;
 
     this.equipes.forEach(division=>
     {
@@ -101,7 +110,7 @@ export class AccueilComponent implements OnInit
           }
         }
       })
-    });
+    });*/
   }
   getEntrainements(journee)
   {

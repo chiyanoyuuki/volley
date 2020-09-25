@@ -12,7 +12,7 @@ html, body                              {height:100%;}
 .compoHeader div                        {display:flex;}
 .compoHeader p                          {padding-top:3%;padding-bottom:3%;}
 .compoHeader .clickable:hover           {color:#505050;}
-.compoHeader .headerClicked             {background-color:}
+.compoHeader .headerClicked             {background-color:#eaeaea;}
 
 .divPlanning                            {display:flex;border-bottom:1px solid #eaeaea;}
 .divPlanning div                        {padding:5px 0px 5px 0px;}
@@ -53,7 +53,6 @@ html, body                              {height:100%;}
 .divStats .terrain                      {height:90%;position: relative;}
 .divStats .filet                        {height:2%;background-color:white;border:1px solid black;}
 .divStats .autreCote                    {height:8%;background-color:rgb(100, 50, 30);}
-.divStats .in                           {background-color:rgb(255, 170, 130);}
 
 .divStats .joueurAvant                  {font-weight: bold;}
 .divStats .joueurArriere                {font-weight: bold;}
@@ -63,7 +62,7 @@ html, body                              {height:100%;}
 .divStats .choix                        {height:90%;}
 .divStats .choix div                    {background-color:cornsilk;width:50%;height:33%;position: absolute;border:3px solid black;margin:0;font-weight: bold;}
 .divStats .choix p                      {height:100%;top:35%;position: relative;}
-.divStats .infos                        {position:relative;top:30%;background-color:white;width:60%;margin:auto;border:3px solid black;}
+.divStats .infos                        {position:relative;top:20%;background-color:white;width:60%;margin:auto;border:3px solid black;}
 .divStats .choix div:hover              {cursor:pointer;background-color:lightgray;}
 .divStats .result div                   {width:50%;height:40%;position: absolute;border:3px solid black;margin:0;font-weight: bold;}
 

@@ -39,7 +39,8 @@
                     {"prenom":"Charles",    "nom":"POURE",      "numero":10},
                     {"prenom":"Paul",       "nom":"LEMAIRE",    "numero":11},
                     {"prenom":"Nicolas",    "nom":"GERMACK",    "numero":12},
-                    {"prenom":"Ata",        "nom":"TOZ",        "numero":13}
+                    {"prenom":"Ata",        "nom":"TOZ",        "numero":13},
+                    {"prenom":"Etienne",    "nom":"ROUSSEZ",    "numero":14}
                 ],
                 "entrainements":
                 [
@@ -76,7 +77,7 @@
                     {"prenom":"Sanka",      "nom":"CLAIR",          "numero":12},
                     {"prenom":"Soheil",     "nom":"MOKKADEM",       "numero":13},
                     {"prenom":"Théo",       "nom":"MOUGDON",        "numero":14},
-                    {"prenom":"Hugo",       "nom":"MINOT",          "numero":15}
+                    {"prenom":"Ugo",       "nom":"MINOT",           "numero":15}
                 ],
                 "entrainements":
                 [
