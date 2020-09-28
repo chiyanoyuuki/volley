@@ -33,9 +33,12 @@
     <div class="divStatsTerrain">
 
         <div class="autreCote">
-            <div class="clickable" (click)="clickAdverse()"
-            style="width:30%;height:70%;position:relative;top:5%;margin:auto;background-color:black;color:white;border-radius:10px;border:5px solid white;font-weight:bold;">
-                <p>{{adverse}}</p>
+            <div class="clickable"
+            style="width:80%;height:70%;position:relative;top:5%;margin:auto;background-color:black;color:white;border-radius:10px;border:5px solid white;font-weight:bold;">
+                <div style="display:flex;height:100%;">
+                    <div (click)="clickAdverse()" style="border-right:2px solid white;"><p>{{adverse}}</p></div>
+                    <div (click)="clickAdverse2()" style="border-left:2px solid white;"><p>{{adverse2}}</p></div>
+                </div>
             </div>
         </div>
         <div class="filet"></div>

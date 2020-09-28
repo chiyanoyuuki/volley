@@ -35,6 +35,7 @@ export class StatsComponent implements OnInit {
 
   service:boolean;
 
+  serviceSet = undefined;
   nb = 0;
   equipes = [];
   joueurClicked;
@@ -45,6 +46,7 @@ export class StatsComponent implements OnInit {
   date;
   menu = "equipe";
   adverse = "POINT ADVERSE";
+  adverse2 = "FAUTE ADVERSE";
 
   ngOnInit(): void 
   {
@@ -156,6 +158,7 @@ export class StatsComponent implements OnInit {
 
       this.joueurClicked = joueur;
       this.adverse='POINT ADVERSE';
+      this.adverse2='FAUTE ADVERSE';
     }
   }
 
@@ -212,6 +215,7 @@ export class StatsComponent implements OnInit {
 
   setService(bool)
   {
+    this.serviceSet = bool;
     this.service=bool;
     this.message=5;
     this.central();
@@ -282,7 +286,13 @@ export class StatsComponent implements OnInit {
         let joueur = this.select.sexe.joueurs.find(e=>e==eleve);
         joueur.capitaine = true;
         this.eleveClicked = undefined;
-        this.message=4;
+        if(this.serviceSet==undefined){this.message=4;}
+        else
+        {
+          this.message=5;
+          this.serviceSet = !this.serviceSet;
+          this.service = this.serviceSet;
+        }
       }
     }
     else if(this.message==5)
@@ -325,7 +335,13 @@ export class StatsComponent implements OnInit {
         let joueur = this.select.sexe.joueurs.find(e=>e==eleve);
         joueur.capitaine = true;
         this.eleveClicked = undefined;
-        this.message=4;
+        if(this.serviceSet==undefined){this.message=4;}
+        else
+        {
+          this.message=5;
+          this.serviceSet = !this.serviceSet;
+          this.service = this.serviceSet;
+        }
       }
     }
     else if(this.message==5)
@@ -375,18 +391,8 @@ export class StatsComponent implements OnInit {
 
   clickResult(result)
   {
-    if(result=="POINT")
-    {
-      this.scores.points1++;
-      if(!this.service){this.changeService();}
-      if(this.scores.points1>=25&&this.scores.points1-this.scores.points2>1){this.scores.points1=0;this.scores.sets1++;this.scores.points2=0;}
-    }
-    else if(result=="FAUTE")
-    {
-      this.scores.points2++;
-      if(this.service){this.changeService();}
-      if(this.scores.points2>=25&&this.scores.points2-this.scores.points1>1){this.scores.points2=0;this.scores.sets2++;this.scores.points1=0;}
-    }
+    if(result=="POINT"){this.addPoint(1);}
+    else if(result=="FAUTE"){this.addPoint(2);}
 
     let action = {joueur:this.joueurClicked,action:this.action,resultat:result};
     this.actions.push(action);
@@ -403,6 +409,7 @@ export class StatsComponent implements OnInit {
 
   clickAdverse()
   {
+    this.adverse2 = "FAUTE ADVERSE";
     this.joueurClicked = undefined;
     if(this.adverse=="POINT ADVERSE")
     {
@@ -411,9 +418,22 @@ export class StatsComponent implements OnInit {
     else if(this.adverse=="VALIDER")
     {
       this.adverse = "POINT ADVERSE";
-      this.scores.points2++;
-      if(this.service){this.changeService();}
-      if(this.scores.points2>=25&&this.scores.points2-this.scores.points1>1){this.scores.points2=0;this.scores.sets2++;this.scores.points1=0;}
+      this.addPoint(2);
+    }
+  }
+
+  clickAdverse2()
+  {
+    this.adverse = "POINT ADVERSE";
+    this.joueurClicked = undefined;
+    if(this.adverse2=="FAUTE ADVERSE")
+    {
+      this.adverse2 = "VALIDER";
+    }
+    else if(this.adverse2=="VALIDER")
+    {
+      this.adverse2 = "FAUTE ADVERSE";
+      this.addPoint(1);
     }
   }
 
@@ -434,6 +454,43 @@ export class StatsComponent implements OnInit {
         else if(action.resultat=="POINT"){this.scores.points1--;}
       }
     }
+  }
+
+  addPoint(i)
+  {
+    if(i==1)
+    {
+      this.scores.points1++;
+      if(!this.service){this.changeService();}
+      if(this.scores.points1>=25&&this.scores.points1-this.scores.points2>1){this.finirSet(1);}
+    }
+    else
+    {
+      this.scores.points2++;
+      if(this.service){this.changeService();}
+      if(this.scores.points2>=25&&this.scores.points2-this.scores.points1>1){this.finirSet(2);}
+    }
+  }
+
+  finirSet(i)
+  {
+    this.scores.points1=0;
+    this.scores.points2=0;
+    if(i==1)
+    {
+      this.scores.sets1++;
+    }
+    else
+    {
+      this.scores.sets2++;
+    }
+    this.adverse = "POINT ADVERSE";
+    this.adverse2 = "FAUTE ADVERSE";
+    this.eleveClicked = undefined;
+    this.joueurClicked = undefined;
+    this.message = 0;
+    this.joueurs = [{},{},{},{},{},{}];
+    this.joueurCote = {};
   }
 
   deleteAction(action){this.actions.splice(this.actions.indexOf(action),1);}
