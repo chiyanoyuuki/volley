@@ -193,6 +193,23 @@
     
             <div class="tfDiv" style="height:40px;"></div>
         </div>
+
+        <div class="tabDiv" style="padding:10px;margin-top:2%">
+            
+            <div class="thDiv">
+                <p>SORT</p>
+                <p>RENTRE</p>
+            </div>
+    
+            <div class="scrollable" style="max-height:300px;">
+                <div class="tdDiv clickable" *ngFor="let changement of changements.slice().reverse()">
+                    <p style="color:rgb(255, 100, 100)">{{changement.sort.numero}}&nbsp;{{changement.sort.prenom}}&nbsp;{{changement.sort.nom}}</p>
+                    <p style="color:rgb(100, 255, 100)">{{changement.rentre.numero}}&nbsp;{{changement.rentre.prenom}}&nbsp;{{changement.rentre.nom}}</p>
+                </div>
+            </div>            
+    
+            <div class="tfDiv" style="height:40px;"></div>
+        </div>
     </div>
 
     <div class="tabDiv" *ngIf="menu=='stats'" style="margin-top:2%;margin-bottom:10%;width:120%;left:-10%;position: relative;min-width:800px;">

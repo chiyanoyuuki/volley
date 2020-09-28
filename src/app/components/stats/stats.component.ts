@@ -28,6 +28,7 @@ export class StatsComponent implements OnInit {
   sex:undefined,sexe:undefined};
   scores = {points1:0,sets1:0,points2:0,sets2:0}
   actions : {joueur:any,action:any,resultat:any}[] = [];
+  changements : {sort:any,rentre:any}[] = [];
   stats : {joueur:any,actions:any}[] = [];
 
   joueurs:{capitaine?,role?,prenom?,nom?,numero?}[] = [{},{},{},{},{},{}];
@@ -303,6 +304,8 @@ export class StatsComponent implements OnInit {
         {
           eleve.role = this.joueurCote.role;
           this.joueurCote.role = "";
+
+          this.changements.push({sort:this.joueurCote,rentre:eleve});
   
           this.joueurCote=eleve;
           this.joueurClicked=undefined;
@@ -311,6 +314,8 @@ export class StatsComponent implements OnInit {
         {
           let i = this.joueurs.indexOf(this.eleveClicked);
           let sort = this.joueurs[i];
+          
+          this.changements.push({sort:sort,rentre:eleve});
   
           eleve.role = sort.role;
           sort.role = "";
