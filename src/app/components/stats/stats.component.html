@@ -25,9 +25,10 @@
         </div>
     </div>
 
-    <div style="width:40%;margin:auto;margin-bottom:1%;display:flex;">
-        <div><button type="button" (click)="changeService2()"><p>Service à {{service?'nous':'eux'}}</p></button></div>
-        <div><button type="button" (click)="rotation()"><p>Rotation</p></button></div>
+    <div style="width:100%;margin:auto;margin-bottom:1%;display:flex;">
+        <div style="margin-right:1%;"><button type="button" class="secondButton" (click)="annulerAction()"><p>{{getDerniereAction()}}</p></button></div>
+        <div style="margin-right:1%;"><button type="button" (click)="changeService2()"><p style="white-space: nowrap;">Service à {{service?'nous':'eux'}}</p></button></div>
+        <div><button type="button" (click)="rotation2()"><p style="white-space: nowrap;">Rotation</p></button></div>
     </div>
 
     <div class="divStatsTerrain">
@@ -169,10 +170,6 @@
     </div>
 
     <div *ngIf="menu=='actions'">
-
-        <button type="button" (click)="annulerAction()">
-            <p>{{annuler}}</p>
-        </button>
 
         <div class="tabDiv" style="padding:10px;">
             

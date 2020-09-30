@@ -28,6 +28,7 @@ export class StatsComponent implements OnInit {
   sex:undefined,sexe:undefined};
   scores = {points1:0,sets1:0,points2:0,sets2:0}
   actions : {joueur:any,action:any,resultat:any}[] = [];
+  derniereAction = [{action:"dernière action",infos:"",changeService:false,confirmer:false,x:undefined}];
   changements : {sort:any,rentre:any}[] = [];
   stats : {joueur:any,actions:any}[] = [];
 
@@ -130,6 +131,11 @@ export class StatsComponent implements OnInit {
     }
     return retour;
   }
+  getDerniereAction()
+  {
+    let action = this.derniereAction[this.derniereAction.length-1];
+    return "Annuler "+action.action+" "+action.infos+(action.confirmer?" : CONFIRMER":"");
+  }
 
   //OTHERS ============================================================================
 
@@ -143,7 +149,6 @@ export class StatsComponent implements OnInit {
         this.joueurs[i] = this.eleveClicked;
         this.message=2;
         let player = this.joueurs[(i+3)%6];
-        console.log(player);
         if(player.role!=undefined)
         {
             if(player.role=="R4")this.setRole("R4");
@@ -201,14 +206,14 @@ export class StatsComponent implements OnInit {
 
   changeService()
   {
-    if(!this.service)this.nb++;
+    this.derniereAction[this.derniereAction.length-1].changeService=true;
     this.service = !this.service;
-    this.central();
-    if(!this.service)this.libero();
+    if(this.service)this.rotation();
   }
 
   changeService2()
   {
+    this.addAction({action:"changement service",infos:"",changeService:false});
     this.service = !this.service;
     this.central();
     this.libero();
@@ -229,6 +234,8 @@ export class StatsComponent implements OnInit {
     this.central();
     this.libero();
   }
+
+  rotation2(){this.addAction({action:"rotation",infos:"",changeService:false});this.rotation();}
 
   central()
   {
@@ -293,6 +300,8 @@ export class StatsComponent implements OnInit {
           this.message=5;
           this.serviceSet = !this.serviceSet;
           this.service = this.serviceSet;
+          this.central();
+          this.libero();
         }
       }
     }
@@ -302,29 +311,33 @@ export class StatsComponent implements OnInit {
       {
         if(this.eleveClicked==this.joueurCote)
         {
-          eleve.role = this.joueurCote.role;
-          this.joueurCote.role = "";
-
-          this.changements.push({sort:this.joueurCote,rentre:eleve});
-  
-          this.joueurCote=eleve;
-          this.joueurClicked=undefined;
+          let sort = this.joueurCote;
+          let rentre = eleve;
+          this.changement(sort,rentre,-1);
         }
         else
         {
           let i = this.joueurs.indexOf(this.eleveClicked);
           let sort = this.joueurs[i];
-          
-          this.changements.push({sort:sort,rentre:eleve});
-  
-          eleve.role = sort.role;
-          sort.role = "";
-  
-          this.joueurs[i]=eleve;
-          this.joueurClicked=undefined;
+          let rentre = eleve;
+          this.changement(sort,rentre,i);
         }
       }
     }
+  }
+
+  changement(sort,rentre,i)
+  {
+    rentre.role = sort.role;
+    sort.role = "";
+
+    this.addAction({action:"changement",infos:sort.numero+"/"+rentre.numero,changeService:false});
+    this.changements.push({sort:sort,rentre:rentre});
+  
+    if(i==-1)this.joueurCote=rentre;
+    else this.joueurs[i]=rentre;
+    this.joueurClicked=undefined;
+    this.eleveClicked=undefined;
   }
 
   clickEquipe(eleve)
@@ -346,6 +359,8 @@ export class StatsComponent implements OnInit {
           this.message=5;
           this.serviceSet = !this.serviceSet;
           this.service = this.serviceSet;
+          this.central();
+          this.libero();
         }
       }
     }
@@ -396,10 +411,9 @@ export class StatsComponent implements OnInit {
 
   clickResult(result)
   {
-    if(result=="POINT"){this.addPoint(1);}
-    else if(result=="FAUTE"){this.addPoint(2);}
-
     let action = {joueur:this.joueurClicked,action:this.action,resultat:result};
+    
+    this.addAction({action:"action",infos:action.joueur.numero+" - "+action.action+" "+action.resultat,changeService:false,x:action});
     this.actions.push(action);
 
     let joueur = this.stats.find(e=>e.joueur==action.joueur);
@@ -408,6 +422,9 @@ export class StatsComponent implements OnInit {
 
     this.joueurClicked = undefined;
     this.action = undefined;
+
+    if(result=="POINT"){this.addPoint(1);}
+    else if(result=="FAUTE"){this.addPoint(2);}
   }
 
 
@@ -422,6 +439,7 @@ export class StatsComponent implements OnInit {
     }
     else if(this.adverse=="VALIDER")
     {
+      this.addAction({action:"point adverse",infos:"",changeService:false});
       this.adverse = "POINT ADVERSE";
       this.addPoint(2);
     }
@@ -437,6 +455,7 @@ export class StatsComponent implements OnInit {
     }
     else if(this.adverse2=="VALIDER")
     {
+      this.addAction({action:"faute adverse",infos:"",changeService:false});
       this.adverse2 = "FAUTE ADVERSE";
       this.addPoint(1);
     }
@@ -444,19 +463,59 @@ export class StatsComponent implements OnInit {
 
   annulerAction()
   {
-    if(this.actions.length>0)
+    let action = this.derniereAction[this.derniereAction.length-1];
+
+    if(action.action!="dernière action")
     {
-      this.joueurClicked = undefined;
-      if(this.annuler=="Annuler dernière action")
+      if(action.confirmer==false){action.confirmer = true;}
+      else
       {
-        this.annuler = "VALIDER";
-      }
-      else if(this.annuler=="VALIDER")
-      {
-        this.annuler = "Annuler dernière action";
-        let action : any = this.actions.pop();
-        if(action.resultat=="FAUTE"){this.scores.points2--;}
-        else if(action.resultat=="POINT"){this.scores.points1--;}
+        if(action.action=="faute adverse")
+        {
+          this.scores.points1--;
+          if(action.changeService){this.nb--;this.service = !this.service;this.central();this.libero();}
+        }
+        else if(action.action=="point adverse")
+        {
+          this.scores.points2--;
+          if(action.changeService){this.service = !this.service;this.central();this.libero();}
+        }
+        else if(action.action=="action")
+        {
+          let x = this.actions[this.actions.length-1];
+          if(x.resultat=="POINT"&&action.changeService){this.nb--;this.service = !this.service;this.central();this.libero();}
+          else if(x.resultat=="FAUTE"&&action.changeService){this.service = !this.service;this.central();this.libero();}
+          this.deleteAction2(x);
+        }
+        else if(action.action=="changement service"){this.service = !this.service;this.central();this.libero();}
+        else if(action.action=="rotation"){this.nb--;this.central();this.libero();}
+        else if(action.action=="changement")
+        {
+          let x = action.infos;
+
+          let numrent = x.substring(0,x.indexOf("/"));
+          let numsort = x.substring(x.indexOf("/")+1);
+
+          let rent = this.select.sexe.joueurs.find(e=>e.numero==numrent);
+          let sort = this.select.sexe.joueurs.find(e=>e.numero==numsort);
+
+          let i=0;
+
+          if(sort==this.joueurCote){i=-1;}
+          else {i = this.joueurs.indexOf(sort);}
+
+          rent.role = sort.role;
+          sort.role = "";
+
+          if(i==-1)this.joueurCote=rent;
+          else this.joueurs[i]=rent;
+
+          this.joueurClicked=undefined;
+          this.eleveClicked=undefined;
+          this.changements.splice(this.changements.length-1,1);
+        }
+
+        this.derniereAction.splice(this.derniereAction.length-1,1);
       }
     }
   }
@@ -489,6 +548,7 @@ export class StatsComponent implements OnInit {
     {
       this.scores.sets2++;
     }
+    this.joueurs = this.joueurs.map(e=>e.role=undefined);
     this.adverse = "POINT ADVERSE";
     this.adverse2 = "FAUTE ADVERSE";
     this.eleveClicked = undefined;
@@ -498,6 +558,29 @@ export class StatsComponent implements OnInit {
     this.joueurCote = {};
   }
 
-  deleteAction(action){this.actions.splice(this.actions.indexOf(action),1);}
+  deleteAction(action)
+  {
+    let i = this.derniereAction.indexOf(this.derniereAction.find(e=>e.x==action));
+    this.derniereAction.splice(i,1);
+    this.deleteAction2(action);
+  }
 
+  deleteAction2(action)
+  {
+    if(action.resultat=="POINT")this.scores.points1--;
+    else if(action.resultat=="FAUTE")this.scores.points2--;
+
+    let joueur = this.stats.find(e=>e.joueur==action.joueur);
+    joueur.actions.splice(joueur.actions.indexOf(action),1);
+
+    this.actions.splice(this.actions.indexOf(action),1);
+  }
+
+  addAction(action)
+  {
+    action.confirmer=false;
+    let x = this.derniereAction[this.derniereAction.length-1].confirmer;
+    if(x==true)this.derniereAction[this.derniereAction.length-1].confirmer=false;
+    this.derniereAction.push(action);
+  }
 }
